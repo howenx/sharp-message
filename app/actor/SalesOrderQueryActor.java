@@ -4,24 +4,29 @@ import akka.actor.AbstractActor;
 import akka.actor.Cancellable;
 import akka.japi.pf.ReceiveBuilder;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import entity.Persist;
 import entity.order.Order;
 import entity.order.OrderSplit;
 import middle.ShopOrderMiddle;
 import modules.LevelFactory;
+import play.Configuration;
 import play.Logger;
 import play.libs.Json;
 import service.OrderService;
 import service.OrderSplitService;
 
 import javax.inject.Inject;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 由子订单号查询ERP订单信息的Actor
  * Created by Sunny Wu on 16/3/9.
  * kakao china.
  */
+@SuppressWarnings("unchecked")
 public class SalesOrderQueryActor extends AbstractActor {
 
     @Inject
@@ -34,18 +39,24 @@ public class SalesOrderQueryActor extends AbstractActor {
     private OrderSplitService orderSplitService;
 
     @Inject
+    Configuration configuration;
+
+    @Inject
     public SalesOrderQueryActor(ShopOrderMiddle shopOrderMiddle) {
         receive(ReceiveBuilder.match(Long.class, orderId -> {
             Logger.error("在ERP中查询订单 "+orderId);
+            Map<String,String> expressCodeMap = new ObjectMapper().convertValue(configuration.getObject("expressCode"),HashMap.class);
             JsonNode jsonNode = null;
             OrderSplit orderSplit = orderSplitService.getSplitByOrderId(orderId).get(0);
             List<Object> salesOrderList = shopOrderMiddle.salesOrderQuery(orderId.toString());
             if ((null != salesOrderList) &&  salesOrderList.size()>0) {
                 jsonNode = Json.toJson(salesOrderList.get(0));
-                int orderStatus = jsonNode.get("orderStatus").intValue();  //系统订单状态
                 String expressCode = jsonNode.get("express").get("expressCode").asText();//快递编码
+                //查找并修改为配置文件中对应的快递100中的快递编码
+                expressCode = expressCodeMap.get(expressCode);
                 String expressName = jsonNode.get("express").get("expressName").asText();//快递名称
                 String expressTrackNo = jsonNode.get("expressTrackNo").asText();         //快递单号
+                int orderStatus = jsonNode.get("orderStatus").intValue();  //系统订单状态
                 String userDefinedField1 = jsonNode.get("userDefinedField1").asText();  //自定义字段1(东方支付推送状态)
                 String userDefinedField4 = jsonNode.get("userDefinedField4").asText();  //自定义字段4(威盛推送状态)
                 String userDefinedField2 = jsonNode.get("userDefinedField2").asText();  //自定义字段2(海关状态)
@@ -62,7 +73,7 @@ public class SalesOrderQueryActor extends AbstractActor {
                     Order order = orderService.getOrderById(orderId);
                     order.setOrderStatus("D");
                     orderService.updateOrder(order);
-                    Logger.error(orderId+": 订单已发货,"+" 快递公司: "+expressName+", 快递单号: "+expressTrackNo);
+                    Logger.error(orderId+": 订单已发货"+", 快递公司编码:"+expressCode +", 快递公司名称: "+expressName+", 快递单号: "+expressTrackNo);
 //                    Logger.error("订单....."+order.toString());
 //                    Logger.error("子订单信息....."+orderSplit.toString());
                     //取消schedule
