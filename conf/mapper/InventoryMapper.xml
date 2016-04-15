@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.InventoryMapper">
+
+    <sql id="inventoryColumns">
+        ${alias}.id,
+        ${alias}.item_id,
+        ${alias}.item_color,
+        ${alias}.item_size,
+        ${alias}.amount,
+        ${alias}.item_price,
+        ${alias}.item_src_price,
+        ${alias}.item_cost_price,
+        ${alias}.item_discount,
+        ${alias}.sold_amount,
+        ${alias}.rest_amount,
+        ${alias}.inv_img,
+        ${alias}.item_preview_imgs::text,
+        ${alias}.or_destroy,
+        ${alias}.destroy_at,
+        ${alias}.update_at,
+        ${alias}.create_at,
+        ${alias}.or_master_inv,
+        ${alias}.state,
+        ${alias}.share_url,
+        ${alias}.share_count,
+        ${alias}.collect_count,
+        ${alias}.browse_count,
+        ${alias}.theme_id,
+        ${alias}.inv_area,
+        ${alias}.restrict_amount,
+        ${alias}.inv_title,
+        ${alias}.inv_customs,
+        ${alias}.postal_tax_code,
+        ${alias}.inv_weight,
+        ${alias}.postal_tax_rate,
+        <!--${alias}.carriage_model_code,-->
+        ${alias}.record_code::text,
+        ${alias}.start_at,
+        ${alias}.end_at,
+        ${alias}.or_vary_price,
+        ${alias}.inv_code,
+        count(*) over() item_num
+    </sql>
+
+    <!-- 录入一条库存信息 -->
+    <insert id="insertInventory" parameterType="entity.Inventory" useGeneratedKeys="true" keyProperty="id">
+        insert into inventories
+        (item_id,item_color,item_size,amount,item_price,item_src_price,item_cost_price,item_discount,sold_amount,rest_amount,inv_img,item_preview_imgs,or_destroy,destroy_at,update_at,create_at,or_master_inv,state,share_url,share_count,collect_count,browse_count,theme_id,inv_area,restrict_amount,inv_title,inv_customs,postal_tax_code,inv_weight,postal_tax_rate,record_code,start_at,end_at,or_vary_price,inv_code)
+        values
+        (#{itemId},#{itemColor},#{itemSize},#{amount},#{itemPrice},#{itemSrcPrice},#{itemCostPrice},#{itemDiscount},0,#{restAmount},#{invImg},#{itemPreviewImgs}::jsonb,false,#{destroyAt},#{updateAt},CURRENT_TIMESTAMP(0),#{orMasterInv},#{state},#{shareUrl},0,0,0,#{themeId},#{invArea},#{restrictAmount},#{invTitle},#{invCustoms},#{postalTaxCode},#{invWeight},#{postalTaxRate},#{recordCode}::jsonb,#{startAt},#{endAt},#{orVaryPrice},#{invCode})
+    </insert>
+
+    <!-- 更新一条库存信息 -->
+    <update id="updateInventory" parameterType="entity.Inventory">
+        update inventories
+        set
+        item_color=#{itemColor},item_size=#{itemSize},amount=#{amount},item_price=#{itemPrice},item_src_price=#{itemSrcPrice},item_cost_price=#{itemCostPrice},item_discount=#{itemDiscount},sold_amount=#{soldAmount},rest_amount=#{restAmount},inv_img=#{invImg},item_preview_imgs=#{itemPreviewImgs}::jsonb,or_destroy=#{orDestroy},destroy_at=#{destroyAt},update_at=CURRENT_TIMESTAMP(0),or_master_inv=#{orMasterInv},state=#{state},share_url=#{shareUrl},share_count=#{shareCount},collect_count=#{collectCount},browse_count=#{browseCount},theme_id=#{themeId},inv_area=#{invArea},restrict_amount=#{restrictAmount},inv_title=#{invTitle},inv_customs=#{invCustoms},postal_tax_code=#{postalTaxCode},inv_weight=#{invWeight},postal_tax_rate=#{postalTaxRate},record_code=#{recordCode}::jsonb,start_at=#{startAt},end_at=#{endAt},or_vary_price=#{orVaryPrice},inv_code=#{invCode}
+        where id = #{id}
+    </update>
+
+    <!-- 获取一条库存信息 -->
+    <select id="getInventory" resultType="entity.Inventory" parameterType="java.lang.Long">
+        select
+        <include refid="inventoryColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from inventories t where id=#{value}
+    </select>
+
+    <!-- 由itemId获取多条库存信息 -->
+    <select id="getInventoriesByItemId" resultType="entity.Inventory" parameterType="java.lang.Long">
+        select
+        <include refid="inventoryColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from inventories t where item_id=#{value}
+        ORDER BY id
+    </select>
+
+    <!-- 获取所有的库存信息 -->
+    <select id="getAllInventories" resultType="entity.Inventory">
+        select
+        <include refid="inventoryColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from inventories t where 1=1
+        ORDER BY id
+    </select>
+
+    <!-- 分页获取SKU信息 -->
+    <select id="getSkuPage" parameterType="entity.Inventory" resultType="entity.Inventory">
+        select
+        <include refid="inventoryColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from inventories t where 1=1
+        <if test="id != null">
+            and t.id = #{id}
+        </if>
+        <if test="itemId != null">
+            and t.item_id = #{itemId}
+        </if>
+        <if test='invTitle != null and invTitle != "null" and invTitle != "" '>
+            and t.inv_title like '%${invTitle}%'
+        </if>
+        <if test='invCode != null and invCode != "null" and invCode != "" '>
+            and t.inv_code = #{invCode}
+        </if>
+        <if test='invArea != null and invArea != "null" and invArea != "" '>
+            and t.inv_area = #{invArea}
+        </if>
+        <if test='state != null and state != "null" and state != "" '>
+            and t.state = #{state}
+        </if>
+        <if test="startAt != null">
+            and t.start_at &gt;= #{startAt} ::timestamp
+        </if>
+        <if test="endAt != null">
+            and t.end_at &lt;= #{endAt} ::timestamp
+        </if>
+        <if test="sort == null or sort == '' ">
+            ORDER BY t.id DESC
+        </if>
+        <if test="sort != null">
+            ORDER BY t.${sort}
+            <if test="order != null">
+                ${order}
+            </if>
+        </if>
+        <if test="pageSize == -1 and offset >= -1">
+            LIMIT ALL OFFSET 0
+        </if>
+        <if test="pageSize >= 1 and offset >= 0">
+            LIMIT #{pageSize} OFFSET #{offset}
+        </if>
+    </select>
+
+    <!-- 由itemId获取主sku -->
+    <select id="getMasterInventory" resultType="entity.Inventory" parameterType="java.lang.Long">
+        select
+        <include refid="inventoryColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from inventories t where item_id=#{value} and or_master_inv = true
+    </select>
+
+    <update id="updInventoryThemeId" parameterType="entity.Inventory">
+        update inventories
+        set theme_id = #{themeId}
+        where id = #{id}
+    </update>
+
+    <select id="getAvailableInventory" resultType="entity.Inventory">
+        select
+        <include refid="inventoryColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from inventories t where t.state = 'Y' or t.state = 'P'
+        ORDER BY id
+
+    </select>
+
+</mapper>

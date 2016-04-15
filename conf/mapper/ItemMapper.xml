@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.ItemMapper">
+
+    <!--enable mybatis default cache configure reference:
+        https://mybatis.github.io/mybatis-3/zh/sqlmap-xml.html#cache
+    -->
+    <!--<cache/>-->
+
+    <sql id="itemColumns">
+        ${alias}.id ,
+        ${alias}.cate_id ,
+        ${alias}.brand_id ,
+        ${alias}.item_title ,
+        ${alias}.supply_merch ,
+        ${alias}.on_shelves_at ,
+        ${alias}.off_shelves_at ,
+        (select inv_img from inventories i where i.item_id=t.id and or_master_inv=true ) as item_master_img ,
+        ${alias}.item_detail_imgs ::text,
+        ${alias}.item_features ::text,
+        ${alias}.theme_id ,
+        ${alias}.state ,
+        ${alias}.share_url ,
+        ${alias}.share_count ,
+        ${alias}.collect_count ,
+        ${alias}.browse_count ,
+        ${alias}.item_notice ,
+        ${alias}.or_destroy ,
+        ${alias}.destroy_at ,
+        ${alias}.update_at ,
+        ${alias}.create_at ,
+        ${alias}.master_inv_id ,
+        ${alias}.item_detail ,
+        ${alias}.publicity::text,
+        count(*) over() item_num
+    </sql>
+
+    <!-- 由id获取一条商品信息 -->
+    <select id="getItem" resultType="entity.Item" parameterType="java.lang.Long">
+        select
+        id,cate_id,brand_id,item_title,supply_merch,on_shelves_at,off_shelves_at,item_master_img,item_detail_imgs,item_features,theme_id,state,share_url,share_count,collect_count,browse_count,item_notice,or_destroy,destroy_at,update_at,create_at,master_inv_id,item_detail,publicity
+        from items t where id=#{value}
+    </select>
+
+    <!-- 分页获取商品信息 -->
+    <select id="getItemPage" parameterType="entity.Item" resultType="entity.Item">
+        select
+        <include refid="itemColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from items t where 1=1
+        <if test="id != null">
+            and t.id = #{id}
+        </if>
+        <if test='itemTitle != null and itemTitle != "null" and itemTitle != "" '>
+            and t.item_title like '%${itemTitle}%'
+        </if>
+        <if test="themeId != null">
+            and t.theme_id = #{themeId}
+        </if>
+        <!--<if test="onShelvesAt != null">-->
+            <!--and t.on_shelves_at &gt;= #{onShelvesAt} ::timestamp-->
+        <!--</if>-->
+        <!--<if test="offShelvesAt != null">-->
+            <!--and t.off_shelves_at &lt;= #{offShelvesAt} ::timestamp-->
+        <!--</if>-->
+        <if test="sort == null or sort == '' ">
+            ORDER BY t.create_at DESC
+        </if>
+        <if test="sort != null">
+            ORDER BY t.${sort}
+            <if test="order != null">
+                ${order}
+            </if>
+        </if>
+        <if test="pageSize == -1 and offset >= -1">
+            LIMIT ALL OFFSET 0
+        </if>
+        <if test="pageSize >= 1 and offset >= 0">
+            LIMIT #{pageSize} OFFSET #{offset}
+        </if>
+    </select>
+
+    <!-- 录入一条商品信息 -->
+    <insert id="itemInsert" parameterType="entity.Item" useGeneratedKeys="true" keyProperty="id">
+        insert into items
+        (cate_id,brand_id,item_title,supply_merch,on_shelves_at,off_shelves_at,item_master_img,item_detail_imgs,item_features,theme_id,state,share_url,share_count,collect_count,browse_count,item_notice,or_destroy,destroy_at,update_at,create_at,master_inv_id,item_detail,publicity)
+        values
+        (#{cateId},#{brandId},#{itemTitle},#{supplyMerch},#{onShelvesAt},#{offShelvesAt},#{itemMasterImg},#{itemDetailImgs}::jsonb,#{itemFeatures}::jsonb,#{themeId},#{state},#{shareUrl},#{shareCount},#{collectCount},#{browseCount},#{itemNotice},false,#{destroyAt},#{updateAt},CURRENT_TIMESTAMP(0),#{masterInvId},#{itemDetail},#{publicity}::jsonb)
+    </insert>
+
+    <!-- 更新一条商品信息 -->
+    <update id="itemUpdate" parameterType="entity.Item">
+        update items
+        set
+        cate_id=#{cateId},brand_id=#{brandId},item_title=#{itemTitle},supply_merch=#{supplyMerch},on_shelves_at=#{onShelvesAt},off_shelves_at=#{offShelvesAt},item_master_img=#{itemMasterImg},item_detail_imgs=#{itemDetailImgs}::jsonb,item_features=#{itemFeatures}::jsonb,theme_id=#{themeId},state=#{state},share_url=#{shareUrl},share_count=#{shareCount},collect_count=#{collectCount},browse_count=#{browseCount},item_notice=#{itemNotice},or_destroy=#{orDestroy},destroy_at=#{destroyAt},update_at=CURRENT_TIMESTAMP(0),master_inv_id=#{masterInvId},item_detail=#{itemDetail},publicity=#{publicity}::jsonb
+        where id = #{id}
+    </update>
+
+    <!-- 获取所有的商品信息 -->
+    <select id="getItemsAll" resultType="entity.Item">
+        select
+        <include refid="itemColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from items t where state = 'Y'
+    </select>
+
+</mapper>

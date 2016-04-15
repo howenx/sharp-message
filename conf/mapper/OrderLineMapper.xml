@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.OrderLineMapper">
+    <sql id="orderLineColumns">
+        ${alias}.line_id,
+        ${alias}.order_id,
+        ${alias}.sku_id,
+        ${alias}.item_id,
+        ${alias}.amount,
+        ${alias}.price,
+        ${alias}.sku_title,
+        ${alias}.sku_img,
+        ${alias}.split_id,
+        ${alias}.sku_size,
+        ${alias}.sku_color
+    </sql>
+    <select id="getLineBySplitId" resultType="entity.order.OrderLine" parameterType="java.lang.Long">
+        select
+        <include refid="orderLineColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from sp_order_line t where split_id = #{value}
+    </select>
+
+
+    <!--由订单Id获取订单明细              Added By Sunny.Wu  2016.03.07-->
+    <select id="getLineByOrderId" resultType="entity.order.OrderLine" parameterType="java.lang.Long">
+        select
+        <include refid="orderLineColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from sp_order_line t where order_id = #{value}
+    </select>
+
+
+</mapper>

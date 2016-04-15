@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.OrderSplitMapper">
+    <sql id="orderSplitColumns">
+        ${alias}.split_id,
+        ${alias}.order_id,
+        ${alias}.state,
+        ${alias}.cbe_code,
+        ${alias}.insp_return_code,
+        ${alias}.insp_return_msg,
+        ${alias}.customs_return_code,
+        ${alias}.customs_return_msg,
+        ${alias}.total_fee,
+        ${alias}.total_pay_fee,
+        ${alias}.total_amount,
+        ${alias}.ship_fee,
+        ${alias}.postal_fee,
+        ${alias}.express_num,
+        ${alias}.express_code,
+        ${alias}.express_nm
+    </sql>
+    <select id="getSplitByOrderId" resultType="entity.order.OrderSplit" parameterType="java.lang.Long">
+        select
+        <include refid="orderSplitColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from order_split t where order_id = #{value}
+    </select>
+
+    <!--由子订单id获取子订单信息           Added By Sunny.Wu   2016.03.09-->
+    <select id="getSplitById" resultType="entity.order.OrderSplit" parameterType="java.lang.Long">
+        select
+        <include refid="orderSplitColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from order_split t where split_id = #{value}
+    </select>
+
+    <!--   修改子订单信息             Add By Sunny.Wu 2016/04/14-->
+    <update id="updateSplitOrder" parameterType="entity.order.OrderSplit">
+        update order_split
+        set
+        state=#{state},express_num=#{expressNum},express_code=#{expressCode},express_nm=#{expressNm}
+        where order_id = #{orderId}
+    </update>
+
+</mapper>

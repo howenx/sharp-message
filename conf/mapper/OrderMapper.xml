@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.OrderMapper">
+
+    <sql id="orderColumns">
+        ${alias}.order_id,
+        ${alias}.user_id,
+        ${alias}.pay_total,
+        ${alias}.pay_method,
+        ${alias}.order_create_at,
+        ${alias}.order_ip,
+        ${alias}.pg_trade_no,
+        ${alias}.order_status,
+        ${alias}.error_str,
+        ${alias}.discount,
+        ${alias}.updated_at,
+        ${alias}.order_desc,
+        ${alias}.ship_fee,
+        ${alias}.postal_fee,
+        ${alias}.confirm_receive_at,
+        ${alias}.total_fee,
+        ${alias}.ship_time,
+        ${alias}.client_type,
+        ${alias}.order_type,
+        ${alias}.pin_active_id
+    </sql>
+    <select id="getOrdersAll" resultType="entity.order.Order">
+        select
+        <include refid="orderColumns">
+            <property name="alias" value="t"></property>
+        </include>
+        from sp_order t where 1=1 order by t.order_create_at DESC
+    </select>
+
+    <select id="getOrderPage" parameterType="entity.order.Order" resultType="entity.order.Order">
+        select
+        <include refid="orderColumns">
+            <property name="alias" value="t"></property>
+        </include>
+        from sp_order t where 1=1
+        <if test="orderId != null">
+            and t.order_id = #{orderId}
+        </if>
+        <if test="userId != null">
+            and t.user_id = #{userId}
+        </if>
+        <if test="orderStatus != null and orderStatus != ''">
+            <if test="orderStatus != 'TO'">
+                and t.order_status = #{orderStatus}
+            </if>
+
+            <if test="orderStatus == 'TO'">
+                and t.order_status = 'I' and t.order_create_at &lt;= CURRENT_TIMESTAMP - interval '1 day'
+            </if>
+        </if>
+        order by t.order_create_at DESC
+        <if test="pageSize == -1 and offset >= -1">
+            LIMIT ALL OFFSET 0
+        </if>
+        <if test="pageSize >= 1 and offset >= 0">
+            LIMIT #{pageSize} OFFSET #{offset}
+        </if>
+    </select>
+
+    <select id="getOrderById" resultType="entity.order.Order" parameterType="java.lang.Long">
+        select
+        <include refid="orderColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from sp_order t where order_id = #{value}
+    </select>
+
+    <select id="getOutTimeOrders" resultType="entity.order.Order">
+        select
+        <include refid="orderColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from sp_order t where t.order_status = 'I' and t.order_create_at &lt;= CURRENT_TIMESTAMP - interval '1 day'
+    </select>
+
+    <select id="getOrderByPinAtvId" resultType="entity.order.Order" parameterType="java.lang.Long">
+        select
+        <include refid="orderColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from sp_order t where t.pin_active_id = #{value}
+    </select>
+
+    <update id="orderCancel" parameterType="java.util.Arrays">
+        update sp_order set order_status = 'C' where order_id in
+        <foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <update id="updPinOrderToSuccess" parameterType="java.util.List">
+        <foreach collection="list" item="order" separator=";">
+            update sp_order set order_status = 'S'
+            where order_id = #{order.orderId} and pin_active_id = #{order.pinActiveId} and order_status = 'PS'
+        </foreach>
+    </update>
+
+    <!--   修改订单信息             Add By Sunny.Wu 2016/04/14-->
+    <update id="updateOrder" parameterType="entity.order.Order">
+        update sp_order
+        set
+        order_status=#{orderStatus},updated_at=CURRENT_TIMESTAMP(0)
+        where order_id = #{orderId}
+    </update>
+</mapper>

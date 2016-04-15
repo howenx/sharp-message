@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.IDMapper">
+    <!--enable mybatis default cache configure reference:
+        https://mybatis.github.io/mybatis-3/zh/sqlmap-xml.html#cache
+    -->
+    <sql id="idColumns">
+        ${alias}.user_id,
+        ${alias}.nickname,
+        ${alias}.passwd,
+        ${alias}.phone_num,
+        ${alias}.gender,
+        ${alias}.birthday,
+        ${alias}.photo_url,
+        ${alias}.real_name,
+        ${alias}.card_type,
+        ${alias}.card_num,
+        ${alias}.card_img ::text,
+        ${alias}.reg_ip ::text,
+        ${alias}.reg_dt,
+        ${alias}.or_real,
+        ${alias}.lastlogin_dt,
+        ${alias}.lastlogin_ip ::text,
+        ${alias}.status,
+        ${alias}.id_type,
+        ${alias}.open_id,
+        ${alias}.id_area,
+        ${alias}.login_times,
+        ${alias}.email,
+        ${alias}.alter_dt,
+        ${alias}.or_active
+    </sql>
+
+
+    <!-- 获取一条用户信息 -->
+    <select id="getID" resultType="entity.ID" parameterType="java.lang.Integer">
+        select
+        <include refid="idColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from "ID" t where user_id=#{value}
+    </select>
+
+    <!-- 获取所有的用户信息 -->
+    <select id="getAllID" resultType="entity.ID">
+        select
+        <include refid="idColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from "ID" t where 1=1
+    </select>
+
+    <!-- 分页获取用户信息 -->
+    <select id="getIDPage" parameterType="entity.ID" resultType="entity.ID">
+        select
+        <include refid="idColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from "ID" t where 1=1
+        <if test="userId != null">
+            and t.user_id = #{userId}
+        </if>
+        <if test='nickname != null and nickname != "null" and nickname != "" '>
+            and t.nickname like '%${nickname}%'
+        </if>
+        <if test='startAt != null'>
+            and t.reg_dt &gt;= #{startAt} ::timestamp
+        </if>
+        <if test='endAt != null'>
+            and t.reg_dt &lt;= #{endAt} ::timestamp
+        </if>
+        <if test="sort == null or sort == '' ">
+            ORDER BY t.user_id DESC
+        </if>
+        <if test="sort != null">
+            ORDER BY t.${sort}
+            <if test="order != null">
+                ${order}
+            </if>
+        </if>
+        <if test="pageSize == -1 and offset >= -1">
+            LIMIT ALL OFFSET 0
+        </if>
+        <if test="pageSize >= 1 and offset >= 0">
+            LIMIT #{pageSize} OFFSET #{offset}
+        </if>
+
+    </select>
+
+    <select id="getIDByPhoneNum" parameterType="java.lang.String" resultType="entity.ID">
+        select
+        <include refid="idColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from "ID" t where phone_num = #{value}
+    </select>
+
+</mapper>

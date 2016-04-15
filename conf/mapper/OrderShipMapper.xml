@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.OrderShipMapper">
+    <sql id="orderShipColumns">
+        ${alias}.ship_id,
+        ${alias}.order_id,
+        ${alias}.delivery_name,
+        ${alias}.delivery_tel,
+        ${alias}.delivery_city,
+        ${alias}.delivery_address,
+        ${alias}.delivery_card_num
+    </sql>
+    <select id="getShipByOrderId" resultType="entity.order.OrderShip" parameterType="java.lang.Long">
+        select
+        <include refid="orderShipColumns">
+            <property name="alias" value="t"></property>
+        </include>
+        from sp_order_ship t where order_id = #{value}
+    </select>
+
+</mapper>
