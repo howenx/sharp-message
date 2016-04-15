@@ -11,5 +11,7 @@ public class LevelDBModule extends AbstractModule {
     protected void configure() {
         bind(LevelFactory.class).asEagerSingleton();
         bind(NewScheduler.class);
+        bind(RemoteActorModule.class).asEagerSingleton();
+        bind(LevelDBPersist.class).asEagerSingleton();
     }
 }
