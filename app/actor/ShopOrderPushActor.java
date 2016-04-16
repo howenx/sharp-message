@@ -3,7 +3,7 @@ package actor;
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
 import akka.japi.pf.ReceiveBuilder;
-import controllers.ShopOrderCtrl;
+import controllers.AdminUserCtrl;
 import entity.order.Order;
 import middle.ShopOrderMiddle;
 import modules.LevelFactory;
@@ -53,7 +53,7 @@ public class ShopOrderPushActor extends AbstractActor{
                     String shopOrderNo = shopOrderMiddle.shopOrderPush(orderId);
                     Logger.error("order"+shopOrderNo+":push to ERP");
                     //启动scheduler从erp查询订单,海关审核通过,更新物流信息
-                    scheduler.schedule(Duration.create(ShopOrderCtrl.ORDER_QUERY_DELAY, TimeUnit.MILLISECONDS),Duration.create(ShopOrderCtrl.ORDER_QUERY_INTERVAL, TimeUnit.MILLISECONDS),salesOrderQueryActor,orderId);
+                    scheduler.schedule(Duration.create(AdminUserCtrl.ORDER_QUERY_DELAY, TimeUnit.MILLISECONDS),Duration.create(AdminUserCtrl.ORDER_QUERY_INTERVAL, TimeUnit.MILLISECONDS),salesOrderQueryActor,orderId);
 //                }
             }
         }).matchAny(s-> {

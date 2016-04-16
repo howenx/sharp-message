@@ -41,6 +41,9 @@ public class AdminUserCtrl extends Controller {
 
     public static final Timeout TIMEOUT = new Timeout(100, TimeUnit.MILLISECONDS);
 
+    public static final Integer ORDER_QUERY_INTERVAL = Integer.parseInt(play.Play.application().configuration().getString("shop.order.query.interval"));
+    public static final Integer ORDER_QUERY_DELAY = Integer.parseInt(play.Play.application().configuration().getString("shop.order.query.delay"));
+
 
     /**
      * 处理系统启动时候去做第一次请求,完成对定时任务的执行
@@ -71,7 +74,7 @@ public class AdminUserCtrl extends Controller {
                             }
                         }else if (p.getType().equals("schedule")){
                             newScheduler.schedule(Duration.create(p.getInitialDelay(), TimeUnit.MILLISECONDS),Duration.create(p.getDelay(), TimeUnit.MILLISECONDS), ref, p.getMessage());
-                            Logger.info("重启后schedule执行---> 每隔 " + Duration.create(p.getDelay(), TimeUnit.MILLISECONDS).toHours()+" 小时执行一次");
+                            Logger.info("重启后schedule执行---> 每隔 " + Duration.create(p.getDelay(), TimeUnit.MILLISECONDS).toMinutes()+" 分钟执行一次");
                         }
                     }
                 }
