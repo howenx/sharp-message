@@ -71,7 +71,7 @@ public class AdminUserCtrl extends Controller {
                             }
                         }else if (p.getType().equals("schedule")){
                             newScheduler.schedule(Duration.create(p.getInitialDelay(), TimeUnit.MILLISECONDS),Duration.create(p.getDelay(), TimeUnit.MILLISECONDS), ref, p.getMessage());
-                            Logger.info("重启后schedule执行---> 每隔 " + Duration.create(p.getDelay(), TimeUnit.MILLISECONDS).toHours()+" 小时执行一次");
+                            Logger.info("重启后schedule执行---> 每隔 " + Duration.create(p.getDelay(), TimeUnit.MILLISECONDS).toMinutes()+" 分钟执行一次");
                         }
                     }
                 }
