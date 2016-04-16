@@ -41,6 +41,9 @@ public class AdminUserCtrl extends Controller {
 
     public static final Timeout TIMEOUT = new Timeout(100, TimeUnit.MILLISECONDS);
 
+    public static final Integer ORDER_QUERY_INTERVAL = Integer.parseInt(play.Play.application().configuration().getString("shop.order.query.interval"));
+    public static final Integer ORDER_QUERY_DELAY = Integer.parseInt(play.Play.application().configuration().getString("shop.order.query.delay"));
+
 
     /**
      * 处理系统启动时候去做第一次请求,完成对定时任务的执行
