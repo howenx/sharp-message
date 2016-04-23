@@ -6,15 +6,15 @@ package domain.erp;
  */
 
 	public abstract class Constants {
-		
-	public static final String URL = "http://121.43.187.125/rest";
-	  
-	public static final String COMPANY = "北京可靠";
-	 
-	public static final String LOGIN_NAME = "manager";
-	  
-	public static final String PASSWORD = "iwilley";
-	
-	public static final String SECRET = "FqRf9ttdG4m94OZSF6QbMSGQCA3eQSHF";
+
+	public static final String URL = play.Play.application().configuration().getString("erp.url");
+
+	public static final String COMPANY = play.Play.application().configuration().getString("erp.company");
+
+	public static final String LOGIN_NAME = play.Play.application().configuration().getString("erp.login.name");
+
+	public static final String PASSWORD = play.Play.application().configuration().getString("erp.login.pwd");
+
+	public static final String SECRET = play.Play.application().configuration().getString("erp.secret");
 
 }
