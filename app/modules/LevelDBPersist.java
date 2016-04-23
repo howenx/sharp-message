@@ -4,7 +4,7 @@ import akka.actor.ActorRef;
 import akka.actor.ActorSelection;
 import akka.actor.ActorSystem;
 import akka.util.Timeout;
-import entity.Persist;
+import domain.Persist;
 import play.Logger;
 import scala.concurrent.Await;
 import scala.concurrent.Future;

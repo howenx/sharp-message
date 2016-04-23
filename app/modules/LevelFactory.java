@@ -2,7 +2,7 @@ package modules;
 
 import akka.actor.ActorSystem;
 import akka.actor.Cancellable;
-import entity.Persist;
+import domain.Persist;
 import org.iq80.leveldb.*;
 import org.iq80.leveldb.impl.Iq80DBFactory;
 import play.Configuration;

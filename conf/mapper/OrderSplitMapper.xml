@@ -21,7 +21,7 @@
         ${alias}.express_code,
         ${alias}.express_nm
     </sql>
-    <select id="getSplitByOrderId" resultType="entity.order.OrderSplit" parameterType="java.lang.Long">
+    <select id="getSplitByOrderId" resultType="domain.order.OrderSplit" parameterType="java.lang.Long">
         select
         <include refid="orderSplitColumns">
             <property name="alias" value="t"/>
@@ -30,7 +30,7 @@
     </select>
 
     <!--由子订单id获取子订单信息           Added By Sunny.Wu   2016.03.09-->
-    <select id="getSplitById" resultType="entity.order.OrderSplit" parameterType="java.lang.Long">
+    <select id="getSplitById" resultType="domain.order.OrderSplit" parameterType="java.lang.Long">
         select
         <include refid="orderSplitColumns">
             <property name="alias" value="t"/>
@@ -39,7 +39,7 @@
     </select>
 
     <!--   修改子订单信息             Add By Sunny.Wu 2016/04/14-->
-    <update id="updateSplitOrder" parameterType="entity.order.OrderSplit">
+    <update id="updateSplitOrder" parameterType="domain.order.OrderSplit">
         update order_split
         set
         state=#{state},express_num=#{expressNum},express_code=#{expressCode},express_nm=#{expressNm}

@@ -1,4 +1,4 @@
-package entity.erp;
+package domain.erp;
 
 import com.iwilley.b1ec2.api.ApiException;
 import com.iwilley.b1ec2.api.B1EC2Client;

@@ -47,7 +47,7 @@
     </sql>
 
     <!-- 录入一条库存信息 -->
-    <insert id="insertInventory" parameterType="entity.Inventory" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertInventory" parameterType="domain.Inventory" useGeneratedKeys="true" keyProperty="id">
         insert into inventories
         (item_id,item_color,item_size,amount,item_price,item_src_price,item_cost_price,item_discount,sold_amount,rest_amount,inv_img,item_preview_imgs,or_destroy,destroy_at,update_at,create_at,or_master_inv,state,share_url,share_count,collect_count,browse_count,theme_id,inv_area,restrict_amount,inv_title,inv_customs,postal_tax_code,inv_weight,postal_tax_rate,record_code,start_at,end_at,or_vary_price,inv_code)
         values
@@ -55,7 +55,7 @@
     </insert>
 
     <!-- 更新一条库存信息 -->
-    <update id="updateInventory" parameterType="entity.Inventory">
+    <update id="updateInventory" parameterType="domain.Inventory">
         update inventories
         set
         item_color=#{itemColor},item_size=#{itemSize},amount=#{amount},item_price=#{itemPrice},item_src_price=#{itemSrcPrice},item_cost_price=#{itemCostPrice},item_discount=#{itemDiscount},sold_amount=#{soldAmount},rest_amount=#{restAmount},inv_img=#{invImg},item_preview_imgs=#{itemPreviewImgs}::jsonb,or_destroy=#{orDestroy},destroy_at=#{destroyAt},update_at=CURRENT_TIMESTAMP(0),or_master_inv=#{orMasterInv},state=#{state},share_url=#{shareUrl},share_count=#{shareCount},collect_count=#{collectCount},browse_count=#{browseCount},theme_id=#{themeId},inv_area=#{invArea},restrict_amount=#{restrictAmount},inv_title=#{invTitle},inv_customs=#{invCustoms},postal_tax_code=#{postalTaxCode},inv_weight=#{invWeight},postal_tax_rate=#{postalTaxRate},record_code=#{recordCode}::jsonb,start_at=#{startAt},end_at=#{endAt},or_vary_price=#{orVaryPrice},inv_code=#{invCode}
@@ -63,7 +63,7 @@
     </update>
 
     <!-- 获取一条库存信息 -->
-    <select id="getInventory" resultType="entity.Inventory" parameterType="java.lang.Long">
+    <select id="getInventory" resultType="domain.Inventory" parameterType="java.lang.Long">
         select
         <include refid="inventoryColumns">
             <property name="alias" value="t"/>
@@ -72,7 +72,7 @@
     </select>
 
     <!-- 由itemId获取多条库存信息 -->
-    <select id="getInventoriesByItemId" resultType="entity.Inventory" parameterType="java.lang.Long">
+    <select id="getInventoriesByItemId" resultType="domain.Inventory" parameterType="java.lang.Long">
         select
         <include refid="inventoryColumns">
             <property name="alias" value="t"/>
@@ -82,7 +82,7 @@
     </select>
 
     <!-- 获取所有的库存信息 -->
-    <select id="getAllInventories" resultType="entity.Inventory">
+    <select id="getAllInventories" resultType="domain.Inventory">
         select
         <include refid="inventoryColumns">
             <property name="alias" value="t"/>
@@ -92,7 +92,7 @@
     </select>
 
     <!-- 分页获取SKU信息 -->
-    <select id="getSkuPage" parameterType="entity.Inventory" resultType="entity.Inventory">
+    <select id="getSkuPage" parameterType="domain.Inventory" resultType="domain.Inventory">
         select
         <include refid="inventoryColumns">
             <property name="alias" value="t"/>
@@ -140,7 +140,7 @@
     </select>
 
     <!-- 由itemId获取主sku -->
-    <select id="getMasterInventory" resultType="entity.Inventory" parameterType="java.lang.Long">
+    <select id="getMasterInventory" resultType="domain.Inventory" parameterType="java.lang.Long">
         select
         <include refid="inventoryColumns">
             <property name="alias" value="t"/>
@@ -148,13 +148,13 @@
         from inventories t where item_id=#{value} and or_master_inv = true
     </select>
 
-    <update id="updInventoryThemeId" parameterType="entity.Inventory">
+    <update id="updInventoryThemeId" parameterType="domain.Inventory">
         update inventories
         set theme_id = #{themeId}
         where id = #{id}
     </update>
 
-    <select id="getAvailableInventory" resultType="entity.Inventory">
+    <select id="getAvailableInventory" resultType="domain.Inventory">
         select
         <include refid="inventoryColumns">
             <property name="alias" value="t"/>

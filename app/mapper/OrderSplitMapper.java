@@ -1,6 +1,6 @@
 package mapper;
 
-import entity.order.OrderSplit;
+import domain.order.OrderSplit;
 
 import java.util.List;
 

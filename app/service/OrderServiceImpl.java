@@ -1,6 +1,6 @@
 package service;
 
-import entity.order.Order;
+import domain.order.Order;
 import mapper.OrderMapper;
 import javax.inject.Inject;
 import java.util.List;

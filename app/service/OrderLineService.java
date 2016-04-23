@@ -1,6 +1,6 @@
 package service;
 
-import entity.order.OrderLine;
+import domain.order.OrderLine;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package service;
 
-import entity.Inventory;
+import domain.Inventory;
 
 import java.util.List;
 

@@ -3,7 +3,7 @@ package actor;
 import akka.actor.AbstractActor;
 import akka.actor.Cancellable;
 import akka.japi.pf.ReceiveBuilder;
-import entity.Persist;
+import domain.Persist;
 import modules.LevelFactory;
 import play.Logger;
 

@@ -1,6 +1,6 @@
 package service;
 
-import entity.ID;
+import domain.ID;
 import mapper.IDMapper;
 
 import javax.inject.Inject;

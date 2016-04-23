@@ -1,6 +1,6 @@
 package mapper;
 
-import entity.order.OrderShip;
+import domain.order.OrderShip;
 
 /**
  * Created by tiffany on 15/12/17.

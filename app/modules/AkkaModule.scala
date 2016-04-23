@@ -14,5 +14,6 @@ class AkkaModule extends AbstractModule with AkkaGuiceSupport {
     bindActor[DelScheduleActor]("delScheduleActor")
     bindActor[ShopOrderPushActor]("shopOrderPushActor")
     bindActor[SalesOrderQueryActor]("salesOrderQueryActor")
+    bindActor[MessageRunActor]("messageRunActor")
   }
 }

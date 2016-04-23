@@ -1,6 +1,7 @@
 package service;
 
-import entity.Item;
+import domain.Item;
+import domain.VersionVo;
 import mapper.InventoryMapper;
 import mapper.ItemMapper;
 
@@ -56,5 +57,10 @@ public class ItemServiceImpl implements ItemService{
      */
     @Override
     public List<Item> getItemsAll() { return itemMapper.getItemsAll(); }
+
+    @Override
+    public List<VersionVo> getVersioning(VersionVo versionVo) {
+        return itemMapper.getVersioning(versionVo);
+    }
 
 }

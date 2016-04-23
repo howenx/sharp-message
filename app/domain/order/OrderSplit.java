@@ -1,4 +1,4 @@
-package entity.order;
+package domain.order;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

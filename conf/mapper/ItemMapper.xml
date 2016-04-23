@@ -39,14 +39,14 @@
     </sql>
 
     <!-- 由id获取一条商品信息 -->
-    <select id="getItem" resultType="entity.Item" parameterType="java.lang.Long">
+    <select id="getItem" resultType="domain.Item" parameterType="java.lang.Long">
         select
         id,cate_id,brand_id,item_title,supply_merch,on_shelves_at,off_shelves_at,item_master_img,item_detail_imgs,item_features,theme_id,state,share_url,share_count,collect_count,browse_count,item_notice,or_destroy,destroy_at,update_at,create_at,master_inv_id,item_detail,publicity
         from items t where id=#{value}
     </select>
 
     <!-- 分页获取商品信息 -->
-    <select id="getItemPage" parameterType="entity.Item" resultType="entity.Item">
+    <select id="getItemPage" parameterType="domain.Item" resultType="domain.Item">
         select
         <include refid="itemColumns">
             <property name="alias" value="t"/>
@@ -85,7 +85,7 @@
     </select>
 
     <!-- 录入一条商品信息 -->
-    <insert id="itemInsert" parameterType="entity.Item" useGeneratedKeys="true" keyProperty="id">
+    <insert id="itemInsert" parameterType="domain.Item" useGeneratedKeys="true" keyProperty="id">
         insert into items
         (cate_id,brand_id,item_title,supply_merch,on_shelves_at,off_shelves_at,item_master_img,item_detail_imgs,item_features,theme_id,state,share_url,share_count,collect_count,browse_count,item_notice,or_destroy,destroy_at,update_at,create_at,master_inv_id,item_detail,publicity)
         values
@@ -93,7 +93,7 @@
     </insert>
 
     <!-- 更新一条商品信息 -->
-    <update id="itemUpdate" parameterType="entity.Item">
+    <update id="itemUpdate" parameterType="domain.Item">
         update items
         set
         cate_id=#{cateId},brand_id=#{brandId},item_title=#{itemTitle},supply_merch=#{supplyMerch},on_shelves_at=#{onShelvesAt},off_shelves_at=#{offShelvesAt},item_master_img=#{itemMasterImg},item_detail_imgs=#{itemDetailImgs}::jsonb,item_features=#{itemFeatures}::jsonb,theme_id=#{themeId},state=#{state},share_url=#{shareUrl},share_count=#{shareCount},collect_count=#{collectCount},browse_count=#{browseCount},item_notice=#{itemNotice},or_destroy=#{orDestroy},destroy_at=#{destroyAt},update_at=CURRENT_TIMESTAMP(0),master_inv_id=#{masterInvId},item_detail=#{itemDetail},publicity=#{publicity}::jsonb
@@ -101,7 +101,7 @@
     </update>
 
     <!-- 获取所有的商品信息 -->
-    <select id="getItemsAll" resultType="entity.Item">
+    <select id="getItemsAll" resultType="domain.Item">
         select
         <include refid="itemColumns">
             <property name="alias" value="t"/>
@@ -109,4 +109,33 @@
         from items t where state = 'Y'
     </select>
 
+    <sql id="versioningColumns">
+        ${alias}.id              ,
+        ${alias}.release_number   ,
+        ${alias}.product_type    ,
+        ${alias}.download_link   ,
+        ${alias}.admin_user_id   ,
+        ${alias}.release_desc    ,
+        to_char(${alias}.release_at, 'YYYY-MM-DD HH24:MI:SS') release_at,
+        ${alias}.file_name         ,
+        ${alias}.current_version   ,
+        ${alias}.update_req_xml     ,
+        ${alias}.app_store_download_link,
+        ${alias}.release_name
+    </sql>
+    <!-- -->
+    <select id="getVersioning" resultType="domain.VersionVo" parameterType="domain.VersionVo" useCache="false">
+        select
+        <include refid="versioningColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from versioning t where 1=1
+        <if test="productType!=null and productType!=''">
+            and product_type=#{productType}
+        </if>
+        <if test="id!=null and id!=''">
+            and id=#{id}
+        </if>
+        order by current_version DESC,release_number DESC
+    </select>
 </mapper>

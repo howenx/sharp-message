@@ -1,4 +1,4 @@
-package entity.order;
+package domain.order;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

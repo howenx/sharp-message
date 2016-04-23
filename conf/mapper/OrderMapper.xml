@@ -27,7 +27,7 @@
         ${alias}.order_type,
         ${alias}.pin_active_id
     </sql>
-    <select id="getOrdersAll" resultType="entity.order.Order">
+    <select id="getOrdersAll" resultType="domain.order.Order">
         select
         <include refid="orderColumns">
             <property name="alias" value="t"></property>
@@ -35,7 +35,7 @@
         from sp_order t where 1=1 order by t.order_create_at DESC
     </select>
 
-    <select id="getOrderPage" parameterType="entity.order.Order" resultType="entity.order.Order">
+    <select id="getOrderPage" parameterType="domain.order.Order" resultType="domain.order.Order">
         select
         <include refid="orderColumns">
             <property name="alias" value="t"></property>
@@ -65,7 +65,7 @@
         </if>
     </select>
 
-    <select id="getOrderById" resultType="entity.order.Order" parameterType="java.lang.Long">
+    <select id="getOrderById" resultType="domain.order.Order" parameterType="java.lang.Long">
         select
         <include refid="orderColumns">
             <property name="alias" value="t"/>
@@ -73,7 +73,7 @@
         from sp_order t where order_id = #{value}
     </select>
 
-    <select id="getOutTimeOrders" resultType="entity.order.Order">
+    <select id="getOutTimeOrders" resultType="domain.order.Order">
         select
         <include refid="orderColumns">
             <property name="alias" value="t"/>
@@ -81,7 +81,7 @@
         from sp_order t where t.order_status = 'I' and t.order_create_at &lt;= CURRENT_TIMESTAMP - interval '1 day'
     </select>
 
-    <select id="getOrderByPinAtvId" resultType="entity.order.Order" parameterType="java.lang.Long">
+    <select id="getOrderByPinAtvId" resultType="domain.order.Order" parameterType="java.lang.Long">
         select
         <include refid="orderColumns">
             <property name="alias" value="t"/>
@@ -104,7 +104,7 @@
     </update>
 
     <!--   修改订单信息             Add By Sunny.Wu 2016/04/14-->
-    <update id="updateOrder" parameterType="entity.order.Order">
+    <update id="updateOrder" parameterType="domain.order.Order">
         update sp_order
         set
         order_status=#{orderStatus},updated_at=CURRENT_TIMESTAMP(0)

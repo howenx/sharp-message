@@ -17,7 +17,7 @@
         ${alias}.sku_size,
         ${alias}.sku_color
     </sql>
-    <select id="getLineBySplitId" resultType="entity.order.OrderLine" parameterType="java.lang.Long">
+    <select id="getLineBySplitId" resultType="domain.order.OrderLine" parameterType="java.lang.Long">
         select
         <include refid="orderLineColumns">
             <property name="alias" value="t"/>
@@ -27,7 +27,7 @@
 
 
     <!--由订单Id获取订单明细              Added By Sunny.Wu  2016.03.07-->
-    <select id="getLineByOrderId" resultType="entity.order.OrderLine" parameterType="java.lang.Long">
+    <select id="getLineByOrderId" resultType="domain.order.OrderLine" parameterType="java.lang.Long">
         select
         <include refid="orderLineColumns">
             <property name="alias" value="t"/>

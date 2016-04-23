@@ -13,7 +13,7 @@
         ${alias}.delivery_address,
         ${alias}.delivery_card_num
     </sql>
-    <select id="getShipByOrderId" resultType="entity.order.OrderShip" parameterType="java.lang.Long">
+    <select id="getShipByOrderId" resultType="domain.order.OrderShip" parameterType="java.lang.Long">
         select
         <include refid="orderShipColumns">
             <property name="alias" value="t"></property>

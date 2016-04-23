@@ -1,4 +1,4 @@
-package entity.erp;
+package domain.erp;
 
 /**
  * Created by Sunny Wu on 16/1/6.

@@ -4,7 +4,7 @@ import akka.actor.ActorRef;
 import akka.actor.ActorSelection;
 import akka.actor.ActorSystem;
 import akka.util.Timeout;
-import entity.Persist;
+import domain.Persist;
 import modules.LevelFactory;
 import modules.NewScheduler;
 import play.Logger;

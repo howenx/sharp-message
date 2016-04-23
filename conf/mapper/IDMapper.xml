@@ -36,7 +36,7 @@
 
 
     <!-- 获取一条用户信息 -->
-    <select id="getID" resultType="entity.ID" parameterType="java.lang.Integer">
+    <select id="getID" resultType="domain.ID" parameterType="java.lang.Integer">
         select
         <include refid="idColumns">
             <property name="alias" value="t"/>
@@ -45,7 +45,7 @@
     </select>
 
     <!-- 获取所有的用户信息 -->
-    <select id="getAllID" resultType="entity.ID">
+    <select id="getAllID" resultType="domain.ID">
         select
         <include refid="idColumns">
             <property name="alias" value="t"/>
@@ -54,7 +54,7 @@
     </select>
 
     <!-- 分页获取用户信息 -->
-    <select id="getIDPage" parameterType="entity.ID" resultType="entity.ID">
+    <select id="getIDPage" parameterType="domain.ID" resultType="domain.ID">
         select
         <include refid="idColumns">
             <property name="alias" value="t"/>
@@ -90,7 +90,7 @@
 
     </select>
 
-    <select id="getIDByPhoneNum" parameterType="java.lang.String" resultType="entity.ID">
+    <select id="getIDByPhoneNum" parameterType="java.lang.String" resultType="domain.ID">
         select
         <include refid="idColumns">
             <property name="alias" value="t"/>

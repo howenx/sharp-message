@@ -1,6 +1,6 @@
 package service;
 
-import entity.order.OrderShip;
+import domain.order.OrderShip;
 import mapper.OrderShipMapper;
 
 import javax.inject.Inject;

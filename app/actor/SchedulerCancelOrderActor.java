@@ -2,7 +2,7 @@ package actor;
 
 import akka.actor.AbstractActor;
 import akka.japi.pf.ReceiveBuilder;
-import entity.order.Order;
+import domain.order.Order;
 import play.Logger;
 import service.OrderService;
 

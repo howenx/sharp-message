@@ -1,6 +1,6 @@
 package mapper;
 
-import entity.order.Order;
+import domain.order.Order;
 import java.util.List;
 
 /**

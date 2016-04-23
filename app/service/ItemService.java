@@ -1,6 +1,7 @@
 package service;
 
-import entity.Item;
+import domain.Item;
+import domain.VersionVo;
 
 import java.util.List;
 
@@ -19,5 +20,8 @@ public interface ItemService {
     Item getItem(Long id);
 
     List<Item> getItemsAll();
+
+    List<VersionVo> getVersioning(VersionVo versionVo);
+
 
 }
