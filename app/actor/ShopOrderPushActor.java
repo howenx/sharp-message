@@ -9,6 +9,7 @@ import middle.ShopOrderMiddle;
 import modules.LevelFactory;
 import modules.NewScheduler;
 import play.Logger;
+import play.libs.Json;
 import scala.concurrent.duration.Duration;
 import service.OrderService;
 import service.OrderSplitService;
@@ -46,15 +47,16 @@ public class ShopOrderPushActor extends AbstractActor{
             Order order = orderService.getOrderById(orderId);
             String orderStatus = order.getOrderStatus();
             //支付成功的订单
-            if ("S".equals(orderStatus) || "PS".equals(orderStatus)) {
-//                List<OrderSplit> orderSplitList = orderSplitService.getSplitByOrderId(orderId);
-//                for(OrderSplit orderSplit : orderSplitList) {
-//                    Long splitId = orderSplit.getSplitId();
-                    String shopOrderNo = shopOrderMiddle.shopOrderPush(orderId);
-                    Logger.error("order"+shopOrderNo+":push to ERP");
+            if ("S".equals(orderStatus)) {
+                String shopOrderNo = shopOrderMiddle.shopOrderPush(orderId);
+                Logger.error("推送结果:"+shopOrderNo);
+                //推送成功的订单再创建schedule
+                if (Json.parse(shopOrderNo).has("ShopOrderNo")) {
+                    shopOrderNo = Json.parse(shopOrderNo).findValue("ShopOrderNo").toString();
+                    Logger.error("订单"+shopOrderNo+":push to ERP");
                     //启动scheduler从erp查询订单,海关审核通过,更新物流信息
                     scheduler.schedule(Duration.create(AdminUserCtrl.ORDER_QUERY_DELAY, TimeUnit.MILLISECONDS),Duration.create(AdminUserCtrl.ORDER_QUERY_INTERVAL, TimeUnit.MILLISECONDS),salesOrderQueryActor,orderId);
-//                }
+                }
             }
         }).matchAny(s-> {
             Logger.error("push to ERP error!", s.toString());
