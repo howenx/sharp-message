@@ -2,7 +2,7 @@ import play.routes.compiler.InjectedRoutesGenerator
 import play.sbt.PlayJava
 name := """style-message"""
 
-version := "1.2.6"
+version := "1.2.7"
 
 lazy val root = (project in file(".")).enablePlugins(PlayJava)
 
@@ -38,6 +38,9 @@ libraryDependencies += "com.typesafe.akka" % "akka-slf4j_2.11" % "2.4.1" withSou
 libraryDependencies += "com.typesafe.akka" %% "akka-remote" % "2.4.1" withSources() withJavadoc()
 
 libraryDependencies += "com.squareup.okhttp" % "okhttp" % "2.7.2"
+
+libraryDependencies += "redis.clients" % "jedis" % "2.8.1"
+
 
 libraryDependencies ++= Seq(
   "org.iq80.leveldb" % "leveldb" % "0.7",
