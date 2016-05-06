@@ -22,7 +22,7 @@ public class LogUtil {
     }
 
     public static void sendLog(ILoggingEvent event) {
-        mnsActor.tell(event, ActorRef.noSender());
+        System.out.println("这尼玛的测试----> "+event.toString());
+//        mnsActor.tell(event, ActorRef.noSender());
     }
-
 }

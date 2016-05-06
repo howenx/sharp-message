@@ -41,6 +41,13 @@ libraryDependencies += "com.squareup.okhttp" % "okhttp" % "2.7.2"
 
 libraryDependencies += "redis.clients" % "jedis" % "2.8.1"
 
+libraryDependencies += "ch.qos.logback.contrib" % "logback-json-classic" % "0.1.4"
+
+libraryDependencies += "ch.qos.logback.contrib" % "logback-json-core" % "0.1.4"
+
+libraryDependencies += "ch.qos.logback.contrib" % "logback-jackson" % "0.1.4"
+
+
 
 libraryDependencies ++= Seq(
   "org.iq80.leveldb" % "leveldb" % "0.7",
