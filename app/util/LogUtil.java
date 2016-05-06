@@ -22,7 +22,6 @@ public class LogUtil {
     }
 
     public static void sendLog(ILoggingEvent event) {
-        System.out.println("这尼玛的测试----> "+event.toString());
-//        mnsActor.tell(event, ActorRef.noSender());
+        mnsActor.tell(event, ActorRef.noSender());
     }
 }
