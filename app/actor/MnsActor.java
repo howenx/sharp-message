@@ -20,11 +20,13 @@ public class MnsActor extends AbstractActor {
     @Inject
     public MnsActor(Jedis jedis) {
         receive(ReceiveBuilder.match(Object.class, event -> {
-
-            if (event instanceof ILoggingEvent) {
-                ((ILoggingEvent) event).getMDCPropertyMap().put("projectId", "style-message");
-//                System.out.println("日志Json格式---->" + Json.toJson(event).toString());
-                jedis.publish(REDIS_CHANNEL, Json.toJson(event).toString());
+            try {
+                if (event instanceof ILoggingEvent) {
+                    ((ILoggingEvent) event).getMDCPropertyMap().put("projectId", "style-message");
+                    //System.out.println("日志Json格式---->" + Json.toJson(event).toString());
+                    jedis.publish(REDIS_CHANNEL, Json.toJson(event).toString());
+                }
+            } catch (Exception e) {
             }
         }).matchAny(s -> {
             Logger.error("MnsActor received messages not matched: {}", s.toString());
