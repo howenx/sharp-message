@@ -66,7 +66,7 @@ public class ShopOrderMiddle {
         //订单信息
         request.shopOrderNo = orderId.toString();//平台订单号
         request.shopId = 4;                      //店铺id
-        request.memberNick = orderId.toString();;         //客户名称
+        request.memberNick = orderId.toString();//客户名称
         request.orderStatus = 10;              //订单状态(0:草稿 10：未发货 20：已发货 30：已完结 40：已关闭 50：已取消)
         request.shopCreatedTime = order.getOrderCreateAt();//下单时间
         request.orderStatusName = "未发货";    //平台订单状态(平台订单状态描述，如已付款，等待发货等等。都为中文描述，仅备注作用)
