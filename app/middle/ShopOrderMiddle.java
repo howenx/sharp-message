@@ -59,7 +59,7 @@ public class ShopOrderMiddle {
         String memberNick = id.getPhoneNum();     //用户手机号
 
         //---推送订单之前现在ERP中创建一条会员信息
-        CustomerMiddle customerMiddle = new CustomerMiddle();
+        CustomerMiddle customerMiddle = new CustomerMiddle(orderShipService);
         customerMiddle.customerCreate(orderId);
         //----推送订单之前现在ERP中创建一条会员信息
 

@@ -17,6 +17,10 @@ public class CustomerMiddle {
     @Inject
     private OrderShipService orderShipService;
 
+    public CustomerMiddle(OrderShipService orderShipService) {
+        this.orderShipService = orderShipService;
+    }
+
     public String customerCreate(Long orderId) throws ApiException {
         CustomerOperate customerOperate = new CustomerOperate();
         CustomerCreateRequest request = new CustomerCreateRequest();
