@@ -21,6 +21,12 @@ public class CustomerMiddle {
         this.orderShipService = orderShipService;
     }
 
+    /**
+     * 创建ERP会员
+     * @param orderId 订单id
+     * @return CustomerCode
+     * @throws ApiException
+     */
     public String customerCreate(Long orderId) throws ApiException {
         CustomerOperate customerOperate = new CustomerOperate();
         CustomerCreateRequest request = new CustomerCreateRequest();
