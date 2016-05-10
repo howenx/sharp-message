@@ -57,10 +57,12 @@ public class ShopOrderMiddle {
         List<OrderLine> orderLineList = orderLineService.getLineByOrderId(orderId);
         ID id = idService.getID(order.getUserId().intValue());
         String memberNick = id.getPhoneNum();     //用户手机号
+        String payMethod = order.getPayMethod();  //支付方式
+        String paymentNo = order.getPgTradeNo();
 
         //---推送订单之前现在ERP中创建一条会员信息
-        CustomerMiddle customerMiddle = new CustomerMiddle(orderShipService);
-        customerMiddle.customerCreate(orderId);
+//        CustomerMiddle customerMiddle = new CustomerMiddle(orderShipService);
+//        customerMiddle.customerCreate(orderId);
         //----推送订单之前现在ERP中创建一条会员信息
 
         //订单信息
@@ -88,8 +90,12 @@ public class ShopOrderMiddle {
         request.receiverAddress = orderShip.getDeliveryAddress();             //收货人地址
         request.receiverZip = orderShip.getDeliveryCardNum();             //收货人身份证号
         request.receiverMobile = orderShip.getDeliveryTel();                  //收货人手机
-//        request.userDefinedField1 = orderShip.getDeliveryCardNum();
-//        request.userDefinedField2 = "qwer";
+        request.userDefinedField1 = orderShip.getDeliveryCardNum();//收货人身份证号
+        if ("JD".equals(payMethod)) payMethod = "京东支付,";
+        else if ("APAY".equals(payMethod)) payMethod = "支付宝,";
+        else if ("WEIXIN".equals(payMethod)) payMethod = "微信支付,";
+        request.userDefinedField2 = payMethod+paymentNo;//支付方式+交易流水号
+
         //订单商品信息
         List<ShopOrderCreateLine> itemLineInfo = new ArrayList<>();
         for(OrderLine orderLine : orderLineList) {
@@ -109,7 +115,7 @@ public class ShopOrderMiddle {
         //付款信息
         List<ShopOrderCreatePayment> paymentLineInfo = new ArrayList<>();
         ShopOrderCreatePayment shopOrderCreatePayment = new ShopOrderCreatePayment();
-        String payMethod = order.getPayMethod();
+
         if ("JD".equals(payMethod)) shopOrderCreatePayment.paymentId = 11;//付款方式
         else if ("APAY".equals(payMethod)) shopOrderCreatePayment.paymentId = 4;
         else if ("WEIXIN".equals(payMethod)) shopOrderCreatePayment.paymentId = 12;
