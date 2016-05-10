@@ -3,7 +3,6 @@ package actor;
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
 import akka.japi.pf.ReceiveBuilder;
-import controllers.AdminUserCtrl;
 import domain.order.Order;
 import middle.ShopOrderMiddle;
 import modules.LevelFactory;
@@ -13,6 +12,7 @@ import play.libs.Json;
 import scala.concurrent.duration.Duration;
 import service.OrderService;
 import service.OrderSplitService;
+import util.SysParCom;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -55,7 +55,7 @@ public class ShopOrderPushActor extends AbstractActor{
                     shopOrderNo = Json.parse(shopOrderNo).findValue("ShopOrderNo").toString();
                     Logger.error("订单"+shopOrderNo+":push to ERP");
                     //启动scheduler从erp查询订单,海关审核通过,更新物流信息
-                    scheduler.schedule(Duration.create(AdminUserCtrl.ORDER_QUERY_DELAY, TimeUnit.MILLISECONDS),Duration.create(AdminUserCtrl.ORDER_QUERY_INTERVAL, TimeUnit.MILLISECONDS),salesOrderQueryActor,orderId);
+                    scheduler.schedule(Duration.create(SysParCom.ORDER_QUERY_DELAY, TimeUnit.MILLISECONDS),Duration.create(SysParCom.ORDER_QUERY_INTERVAL, TimeUnit.MILLISECONDS),salesOrderQueryActor,orderId);
                 }
             }
         }).matchAny(s-> {

@@ -80,6 +80,7 @@ public class ShopOrderMiddle {
         request.receiverCity = orderShip.getDeliveryCity().split(" ")[1];//收货人城市
         request.receiverDistrict = orderShip.getDeliveryCity().split(" ")[2];//收货人地区
         request.receiverAddress = orderShip.getDeliveryAddress();             //收货人地址
+        request.receiverZip = orderShip.getDeliveryCardNum();             //收货人身份证号
         request.receiverMobile = orderShip.getDeliveryTel();                  //收货人手机
         //订单商品信息
         List<ShopOrderCreateLine> itemLineInfo = new ArrayList<>();
