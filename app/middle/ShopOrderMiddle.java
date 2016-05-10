@@ -82,6 +82,8 @@ public class ShopOrderMiddle {
         request.receiverAddress = orderShip.getDeliveryAddress();             //收货人地址
         request.receiverZip = orderShip.getDeliveryCardNum();             //收货人身份证号
         request.receiverMobile = orderShip.getDeliveryTel();                  //收货人手机
+        request.userDefinedField1 = orderShip.getDeliveryCardNum();
+        request.userDefinedField2 = "qwer";
         //订单商品信息
         List<ShopOrderCreateLine> itemLineInfo = new ArrayList<>();
         for(OrderLine orderLine : orderLineList) {
