@@ -6,6 +6,7 @@ import com.iwilley.b1ec2.api.domain.ShopOrderCreatePayment;
 import com.iwilley.b1ec2.api.request.ShopOrderCreateRequest;
 import domain.ID;
 import domain.Inventory;
+import domain.WeiShengExpress;
 import domain.erp.ShopOrderOperate;
 import domain.order.Order;
 import domain.order.OrderLine;
@@ -41,6 +42,9 @@ public class ShopOrderMiddle {
 
     @Inject
     private InventoryService inventoryService;
+
+    @Inject
+    private WeiShengExpressService weiShengExpressService;
 
     /**
      * ERP 推送订单(子订单)
@@ -90,7 +94,16 @@ public class ShopOrderMiddle {
         request.receiverAddress = orderShip.getDeliveryAddress();             //收货人地址
         request.receiverZip = orderShip.getDeliveryCardNum();             //收货人身份证号
         request.receiverMobile = orderShip.getDeliveryTel();                  //收货人手机
-        request.userDefinedField1 = orderShip.getDeliveryCardNum();//收货人身份证号
+        String trackingId = "";
+        String wsExporessNo = "";
+        WeiShengExpress weiShengExpress = weiShengExpressService.getExpress();
+        if (null != weiShengExpress) {
+            trackingId = weiShengExpress.getTrackingId();
+            wsExporessNo = weiShengExpress.getExpressNo();
+        }
+        request.userDefinedField1 = orderShip.getDeliveryCardNum() + "," + trackingId + "," + wsExporessNo;//收货人身份证号
+        //威盛物流单号使用后更新状态
+        weiShengExpressService.useExpress(weiShengExpress);
         if ("JD".equals(payMethod)) payMethod = "京东支付";
         else if ("APAY".equals(payMethod)) payMethod = "支付宝";
         else if ("WEIXIN".equals(payMethod)) payMethod = "微信支付";
