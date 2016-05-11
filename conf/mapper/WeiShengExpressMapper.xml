@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.WeiShengExpressMapper">
+    <!--enable mybatis default cache configure reference:
+        https://mybatis.github.io/mybatis-3/zh/sqlmap-xml.html#cache
+    -->
+    <sql id="weiShengExpressColumns">
+        ${alias}.tracking_id,
+        ${alias}.express_no,
+        ${alias}.or_use
+    </sql>
+
+    <!-- 获取一条威盛快递单 -->
+    <select id="getExpress" resultType="domain.WeiShengExpress" >
+        select
+        <include refid="weiShengExpressColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from weisheng t where or_use != true limit 1
+    </select>
+
+    <!--快递单使用后状态置为已使用-->
+    <update id="useExpress" parameterType="domain.WeiShengExpress">
+        update weisheng
+        set
+        or_use=true
+        where tracking_id = #{trackingId}
+    </update>
+
+</mapper>

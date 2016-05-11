@@ -35,6 +35,7 @@ public class StyleDBModule extends PrivateModule{
                 //只针对style数据库的Mapper,不可以将一个Mapper多Module进行Add
                 addMapperClass(ItemMapper.class);
                 addMapperClass(InventoryMapper.class);
+                addMapperClass(WeiShengExpressMapper.class);
             }
         });
 
@@ -53,10 +54,12 @@ public class StyleDBModule extends PrivateModule{
          */
         bind(ItemService.class).to(ItemServiceImpl.class);
         bind(InventoryService.class).to(InventoryServiceImpl.class);
+        bind(WeiShengExpressService.class).to(WeiShengExpressServiceImpl.class);
 
         //必须expose
         expose(ItemService.class);
         expose(InventoryService.class);
+        expose(WeiShengExpressService.class);
     }
 
     @Singleton
