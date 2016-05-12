@@ -28,7 +28,8 @@ public class ShopOrderOperate {
      * @throws ApiException
      */
     public String ShopOrderPush(ShopOrderCreateRequest request) throws ApiException {
-        B1EC2Client client = new B1EC2Client(SysParCom.URL, SysParCom.COMPANY, SysParCom.LOGIN_NAME, SysParCom.PASSWORD, SysParCom.SECRET);
+//        B1EC2Client client = new B1EC2Client(SysParCom.URL, SysParCom.COMPANY, SysParCom.LOGIN_NAME, SysParCom.PASSWORD, SysParCom.SECRET);
+        B1EC2Client client = new B1EC2Client(SysParCom.URL, SysParCom.COMPANY, SysParCom.LOGIN_NAME, SysParCom.PASSWORD);
         ShopOrderCreateResponse response = client.execute(request);
         return response.getBody();
     }
