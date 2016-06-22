@@ -16,14 +16,19 @@ public class RedisPool {
     private static final Integer REDIS_PORT = ConfigFactory.defaultApplication().getInt("redis.port");
     private static final String REDIS_PASSWORD = ConfigFactory.defaultApplication().getString("redis.password");
 
-    public static Jedis create() {
+    private static JedisPoolConfig config = new JedisPoolConfig();
 
-        JedisPoolConfig config = new JedisPoolConfig();
+    static {
         config.setMaxIdle(200);
         config.setMaxTotal(300);
         config.setTestOnBorrow(false);
         config.setTestOnReturn(false);
-        JedisPool pool = new JedisPool(config, REDIS_URL, REDIS_PORT, 3000, REDIS_PASSWORD);
-        return pool.getResource();
+    }
+
+    private static final JedisPool jedisPool = new JedisPool(config, REDIS_URL, REDIS_PORT, 3000, REDIS_PASSWORD);
+
+    public static JedisPool createPool() {
+        return jedisPool;
     }
 }
+
