@@ -57,12 +57,21 @@ public class SalesOrderQueryActor extends AbstractActor {
                 String expressName = jsonNode.get("express").get("expressName").asText();//快递名称
                 String expressTrackNo = jsonNode.get("expressTrackNo").asText();         //快递单号
                 int orderStatus = jsonNode.get("orderStatus").intValue();  //系统订单状态
-                String userDefinedField1 = jsonNode.get("userDefinedField1").asText();  //自定义字段1(东方支付推送状态)
-                String userDefinedField4 = jsonNode.get("userDefinedField4").asText();  //自定义字段4(威盛推送状态)
+                String userDefinedField1 = jsonNode.get("userDefinedField1").asText();  //自定义字段1(推送状态)
                 String userDefinedField2 = jsonNode.get("userDefinedField2").asText();  //自定义字段2(海关状态)
+                String userDefinedField3 = jsonNode.get("userDefinedField3").asText();  //自定义字段3(身份信息)
+                String userDefinedField4 = jsonNode.get("userDefinedField4").asText();  //自定义字段4(威盛入库状态)
+                String userDefinedField5 = jsonNode.get("userDefinedField5").asText();  //自定义字段5(威盛单号)
+//                String userDefinedField6 = jsonNode.get("userDefinedField6").asText();  //自定义字段6
+//                String userDefinedField7 = jsonNode.get("userDefinedField7").asText();  //自定义字段7
+//                String userDefinedField8 = jsonNode.get("userDefinedField8").asText();  //自定义字段8
+//                String userDefinedField9 = jsonNode.get("userDefinedField9").asText();  //自定义字段9
+                String userDefinedField10 = jsonNode.get("userDefinedField10").asText();  //自定义字段10
+                String userDefinedField11 = jsonNode.get("userDefinedField11").asText();  //自定义字段11
+                Logger.error("订单信息:::::::"+jsonNode.toString());
                 //根据子订单的报关单位判断哪个自定义字段的推送状态
                 //报关成功且海关返回物流单号,更新快递单号到
-                if (orderStatus==60   &&   !"".equals(expressTrackNo)) {
+                if ((orderStatus==60 && !"".equals(expressTrackNo)) || ("已推送".equals(userDefinedField1) && "货物放行".equals(userDefinedField2) && "威盛已入库".equals(userDefinedField4) && null!=userDefinedField10 && !"".equals(userDefinedField10))) {
                     //更新子订单状态,物流信息
                     //orderSplit.setState("S");//报关成功
                     orderSplit.setExpressCode(expressCode);//快递公司代码
