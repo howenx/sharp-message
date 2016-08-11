@@ -119,7 +119,7 @@ public class ShopOrderMiddle {
         }
 
         if ("JD".equals(payMethod)) payMethod = "京东支付";
-        else if ("APAY".equals(payMethod)) payMethod = "支付宝";
+        else if ("ALIPAY".equals(payMethod)) payMethod = "支付宝";
         else if ("WEIXIN".equals(payMethod)) payMethod = "微信支付";
         request.userDefinedField2 = payMethod+","+paymentNo;//支付方式+交易流水号
 
@@ -144,11 +144,14 @@ public class ShopOrderMiddle {
         ShopOrderCreatePayment shopOrderCreatePayment = new ShopOrderCreatePayment();
         Logger.error("付款方式:"+order.getPayMethod());
         if ("JD".equals(order.getPayMethod())) shopOrderCreatePayment.paymentId = 11;//付款方式
-        else if ("APAY".equals(order.getPayMethod())) shopOrderCreatePayment.paymentId = 4;
+        else if ("ALIPAY".equals(order.getPayMethod())) shopOrderCreatePayment.paymentId = 4;
         else if ("WEIXIN".equals(order.getPayMethod())) shopOrderCreatePayment.paymentId = 12;
         if (null!=orderSplit.getTotalPayFee()) shopOrderCreatePayment.paymentTotal = orderSplit.getTotalPayFee().doubleValue();//付款金额
         shopOrderCreatePayment.paymentNo = order.getPgTradeNo();//付款单号
         paymentLineInfo.add(shopOrderCreatePayment);
+
+
+
         request.setItemLines(itemLineInfo);
         request.setPaymentLines(paymentLineInfo);
         JsonNode jsonNode = Json.toJson(request);
