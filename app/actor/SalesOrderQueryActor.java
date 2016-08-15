@@ -68,7 +68,7 @@ public class SalesOrderQueryActor extends AbstractActor {
 //                String userDefinedField9 = jsonNode.get("userDefinedField9").asText();  //自定义字段9
                 String userDefinedField10 = jsonNode.get("userDefinedField10").asText();  //自定义字段10
                 String userDefinedField11 = jsonNode.get("userDefinedField11").asText();  //自定义字段11
-                Logger.error("订单信息:::::::"+jsonNode.toString());
+//                Logger.error("订单信息:::::::"+jsonNode.toString());
                 //根据子订单的报关单位判断哪个自定义字段的推送状态
                 //报关成功且海关返回物流单号,更新快递单号到
                 if ((orderStatus==60 && !"".equals(expressTrackNo)) || ("已推送".equals(userDefinedField1) && "货物放行".equals(userDefinedField2) && "威盛已入库".equals(userDefinedField4) && null!=userDefinedField10 && !"".equals(userDefinedField10))) {

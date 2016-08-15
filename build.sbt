@@ -2,7 +2,7 @@ import play.routes.compiler.InjectedRoutesGenerator
 import play.sbt.PlayJava
 name := """style-message"""
 
-version := "2.0.2"
+version := "2.0.3"
 
 lazy val root = (project in file(".")).enablePlugins(PlayJava)
 
