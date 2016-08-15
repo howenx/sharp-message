@@ -143,9 +143,9 @@ public class ShopOrderMiddle {
         List<ShopOrderCreatePayment> paymentLineInfo = new ArrayList<>();
         ShopOrderCreatePayment shopOrderCreatePayment = new ShopOrderCreatePayment();
         Logger.error("付款方式:"+order.getPayMethod());
-        if ("JD".equals(order.getPayMethod())) shopOrderCreatePayment.paymentId = 11;//付款方式
+        if ("JD".equals(order.getPayMethod())) shopOrderCreatePayment.paymentId = 21;//付款方式
         else if ("ALIPAY".equals(order.getPayMethod())) shopOrderCreatePayment.paymentId = 4;
-        else if ("WEIXIN".equals(order.getPayMethod())) shopOrderCreatePayment.paymentId = 12;
+        else if ("WEIXIN".equals(order.getPayMethod())) shopOrderCreatePayment.paymentId = 26;
         if (null!=orderSplit.getTotalPayFee()) shopOrderCreatePayment.paymentTotal = orderSplit.getTotalPayFee().doubleValue();//付款金额
         shopOrderCreatePayment.paymentNo = order.getPgTradeNo();//付款单号
         paymentLineInfo.add(shopOrderCreatePayment);
