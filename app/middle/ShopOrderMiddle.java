@@ -84,7 +84,8 @@ public class ShopOrderMiddle {
         else if (clientType==3) request.isMobile = false;
         request.discountFee = order.getDiscount().doubleValue();//折扣金额
         request.postFee = order.getShipFee().doubleValue();//邮费
-        if (null!=orderSplit.getTotalFee()) request.goodsTotal = orderSplit.getTotalFee().doubleValue();//商品总额
+//        if (null!=orderSplit.getTotalFee()) request.goodsTotal = orderSplit.getTotalFee().doubleValue();//商品总额
+        if (null!=orderSplit.getTotalFee()) request.goodsTotal = orderSplit.getTotalPayFee().doubleValue();//商品总额(修改为推送支付金额)
         if (null!=orderSplit.getTotalPayFee()) request.orderTotal = orderSplit.getTotalPayFee().doubleValue();//应付金额
 //        request.receivedTotal();                                 //实际收款
         request.shopPayTime = order.getUpdatedAt();//平台付款时间
