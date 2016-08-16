@@ -82,7 +82,8 @@ public class ShopOrderMiddle {
         int clientType = order.getClientType();
         if (clientType==1 || clientType==2) request.isMobile = true;          //是否手机订单
         else if (clientType==3) request.isMobile = false;
-        request.discountFee = order.getDiscount().doubleValue();//折扣金额
+//        request.discountFee = order.getDiscount().doubleValue();//折扣金额
+        request.discountFee = 0d;//折扣金额(修改为0)
         request.postFee = order.getShipFee().doubleValue();//邮费
 //        if (null!=orderSplit.getTotalFee()) request.goodsTotal = orderSplit.getTotalFee().doubleValue();//商品总额
         if (null!=orderSplit.getTotalFee()) request.goodsTotal = orderSplit.getTotalPayFee().doubleValue();//商品总额(修改为推送支付金额)
@@ -133,7 +134,8 @@ public class ShopOrderMiddle {
             Inventory inventory = inventoryService.getInventory(skuId);
             shopOrderCreateLine.outerId = inventory.getInvCode();                //外部编码
             shopOrderCreateLine.quantity = orderLine.getAmount();   //数量
-            shopOrderCreateLine.price = orderLine.getPrice().doubleValue();//价格
+//            shopOrderCreateLine.price = orderLine.getPrice().doubleValue();//价格
+            shopOrderCreateLine.price = orderSplit.getTotalPayFee().doubleValue();//价格(修改为支付金额)
             shopOrderCreateLine.itemName = orderLine.getSkuTitle();        //商品名称
             shopOrderCreateLine.skuName = orderLine.getSkuColor()+orderLine.getSkuSize();//规格名称
 //            shopOrderCreateLine.lineUdf1 = orderLine.getItemId().toString();
