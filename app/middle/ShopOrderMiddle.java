@@ -134,8 +134,8 @@ public class ShopOrderMiddle {
             Inventory inventory = inventoryService.getInventory(skuId);
             shopOrderCreateLine.outerId = inventory.getInvCode();                //外部编码
             shopOrderCreateLine.quantity = orderLine.getAmount();   //数量
-            shopOrderCreateLine.price = orderLine.getPrice().doubleValue();//价格
-//            shopOrderCreateLine.price = orderSplit.getTotalPayFee().doubleValue();//价格(修改为支付金额)
+//            shopOrderCreateLine.price = orderLine.getPrice().doubleValue();//价格
+            shopOrderCreateLine.price = orderSplit.getTotalPayFee().doubleValue();//价格(修改为支付金额)
             shopOrderCreateLine.itemName = orderLine.getSkuTitle();        //商品名称
             shopOrderCreateLine.skuName = orderLine.getSkuColor()+orderLine.getSkuSize();//规格名称
 //            shopOrderCreateLine.lineUdf1 = orderLine.getItemId().toString();
