@@ -82,8 +82,8 @@ public class ShopOrderMiddle {
         int clientType = order.getClientType();
         if (clientType==1 || clientType==2) request.isMobile = true;          //是否手机订单
         else if (clientType==3) request.isMobile = false;
-//        request.discountFee = order.getDiscount().doubleValue();//折扣金额
-        request.discountFee = 0d;//折扣金额(修改为0)
+        request.discountFee = order.getDiscount().doubleValue();//折扣金额
+//        request.discountFee = 0d;//折扣金额(修改为0)
         request.postFee = order.getShipFee().doubleValue();//邮费
 //        if (null!=orderSplit.getTotalFee()) request.goodsTotal = orderSplit.getTotalFee().doubleValue();//商品总额
         if (null!=orderSplit.getTotalFee()) request.goodsTotal = orderSplit.getTotalPayFee().doubleValue();//商品总额(修改为推送支付金额)
