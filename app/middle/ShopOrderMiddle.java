@@ -74,7 +74,7 @@ public class ShopOrderMiddle {
 
         //订单信息
         request.shopOrderNo = orderId.toString();//平台订单号
-        request.shopId = 4;                      //店铺id
+        request.shopId = 5;                      //店铺id
         request.memberNick = memberNick;//客户名称
         request.orderStatus = 10;              //订单状态(0:草稿 10：未发货 20：已发货 30：已完结 40：已关闭 50：已取消)
         request.shopCreatedTime = order.getOrderCreateAt();//下单时间
