@@ -25,7 +25,9 @@
         ${alias}.ship_time,
         ${alias}.client_type,
         ${alias}.order_type,
-        ${alias}.pin_active_id
+        ${alias}.pin_active_id,
+        ${alias}.erp_status
+
     </sql>
     <select id="getOrdersAll" resultType="domain.order.Order">
         select
@@ -110,4 +112,14 @@
         order_status=#{orderStatus},updated_at=CURRENT_TIMESTAMP(0)
         where order_id = #{orderId}
     </update>
+
+    <!--   修改订单推送到ERP的状态             Add By Sunny.Wu 2016.09.05-->
+    <update id="updateOrderERPStatus" parameterType="domain.order.Order">
+        update sp_order
+        set
+        erp_status=#{erpStatus},updated_at=CURRENT_TIMESTAMP(0)
+        where order_id = #{orderId}
+    </update>
+
+
 </mapper>

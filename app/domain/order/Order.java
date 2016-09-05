@@ -36,6 +36,8 @@ public class Order implements Serializable {
     private Integer orderType;          //订单类型
     private Long pinActiveId;           //拼购活动ID
 
+    private String erpStatus;           //订单推送到ERP的状态 S:成功   F:失败
+
     //分页,每页多少条
     private Integer pageSize;
     //分页,从第几条开始
@@ -46,33 +48,6 @@ public class Order implements Serializable {
     private String order;
 
     public Order() {
-    }
-
-    public Order(Long orderId, Long userId, BigDecimal payTotal, String payMethod, Timestamp orderCreateAt, String orderIp, String pgTradeNo, String orderStatus, String errorStr, BigDecimal discount, Timestamp updatedAt, String orderDesc, BigDecimal shipFee, BigDecimal postalFee, Timestamp confirmReveiveAt, BigDecimal totalFee, Integer shipTime, Integer clientType, Integer orderType, Long pinActiveId, Integer pageSize, Integer offset, String sort, String order) {
-        this.orderId = orderId;
-        this.userId = userId;
-        this.payTotal = payTotal;
-        this.payMethod = payMethod;
-        this.orderCreateAt = orderCreateAt;
-        this.orderIp = orderIp;
-        this.pgTradeNo = pgTradeNo;
-        this.orderStatus = orderStatus;
-        this.errorStr = errorStr;
-        this.discount = discount;
-        this.updatedAt = updatedAt;
-        this.orderDesc = orderDesc;
-        this.shipFee = shipFee;
-        this.postalFee = postalFee;
-        this.confirmReveiveAt = confirmReveiveAt;
-        this.totalFee = totalFee;
-        this.shipTime = shipTime;
-        this.clientType = clientType;
-        this.orderType = orderType;
-        this.pinActiveId = pinActiveId;
-        this.pageSize = pageSize;
-        this.offset = offset;
-        this.sort = sort;
-        this.order = order;
     }
 
     @Override
@@ -98,11 +73,40 @@ public class Order implements Serializable {
                 ", clientType=" + clientType +
                 ", orderType=" + orderType +
                 ", pinActiveId=" + pinActiveId +
+                ", erpStatus='" + erpStatus + '\'' +
                 ", pageSize=" + pageSize +
                 ", offset=" + offset +
                 ", sort='" + sort + '\'' +
                 ", order='" + order + '\'' +
                 '}';
+    }
+
+    public Order(Long orderId, Long userId, BigDecimal payTotal, String payMethod, Timestamp orderCreateAt, String orderIp, String pgTradeNo, String orderStatus, String errorStr, BigDecimal discount, Timestamp updatedAt, String orderDesc, BigDecimal shipFee, BigDecimal postalFee, Timestamp confirmReveiveAt, BigDecimal totalFee, Integer shipTime, Integer clientType, Integer orderType, Long pinActiveId, String erpStatus, Integer pageSize, Integer offset, String sort, String order) {
+        this.orderId = orderId;
+        this.userId = userId;
+        this.payTotal = payTotal;
+        this.payMethod = payMethod;
+        this.orderCreateAt = orderCreateAt;
+        this.orderIp = orderIp;
+        this.pgTradeNo = pgTradeNo;
+        this.orderStatus = orderStatus;
+        this.errorStr = errorStr;
+        this.discount = discount;
+        this.updatedAt = updatedAt;
+        this.orderDesc = orderDesc;
+        this.shipFee = shipFee;
+        this.postalFee = postalFee;
+        this.confirmReveiveAt = confirmReveiveAt;
+        this.totalFee = totalFee;
+        this.shipTime = shipTime;
+        this.clientType = clientType;
+        this.orderType = orderType;
+        this.pinActiveId = pinActiveId;
+        this.erpStatus = erpStatus;
+        this.pageSize = pageSize;
+        this.offset = offset;
+        this.sort = sort;
+        this.order = order;
     }
 
     public Long getOrderId() {
@@ -263,6 +267,14 @@ public class Order implements Serializable {
 
     public void setPinActiveId(Long pinActiveId) {
         this.pinActiveId = pinActiveId;
+    }
+
+    public String getErpStatus() {
+        return erpStatus;
+    }
+
+    public void setErpStatus(String erpStatus) {
+        this.erpStatus = erpStatus;
     }
 
     public Integer getPageSize() {

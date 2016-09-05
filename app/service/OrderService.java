@@ -54,4 +54,11 @@ public interface OrderService {
      * @param order 订单
      */
     void updateOrder(Order order);
+
+    /**
+     * 修改订单推送到ERP的状态         Add By Sunny.Wu 2016.09.05
+     * @param order 订单
+     */
+    void updateOrderERPStatus(Order order);
+
 }
