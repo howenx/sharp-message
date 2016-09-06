@@ -58,8 +58,8 @@ public class ShopOrderPushActor extends AbstractActor{
             String orderStatus = order.getOrderStatus();
             List<OrderLine> orderLineList = orderLineService.getLineByOrderId(orderId);
             String invArea = inventoryService.getInventory(orderLineList.get(0).getSkuId()).getInvArea();
-            //支付成功的订单并且订单商品为"K" 韩国直邮的  推送到ERP
-            if ("S".equals(orderStatus) && "K".equals(invArea)) {
+            //支付成功的订单 并且推送状态为未推送成功的 并且订单商品为"K" 韩国直邮的  推送到ERP
+            if ("S".equals(orderStatus) && !"S".equals(order.getErpStatus()) && "K".equals(invArea)) {
                 String shopOrderNo = shopOrderMiddle.shopOrderPush(orderId);
                 Logger.error("推送结果:"+shopOrderNo);
                 //推送成功的订单再创建schedule
