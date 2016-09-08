@@ -7,7 +7,6 @@ import com.iwilley.b1ec2.api.domain.ShopOrderCreatePayment;
 import com.iwilley.b1ec2.api.request.ShopOrderCreateRequest;
 import domain.ID;
 import domain.Inventory;
-import domain.WeiShengExpress;
 import domain.erp.ShopOrderOperate;
 import domain.order.Order;
 import domain.order.OrderLine;
@@ -101,24 +100,26 @@ public class ShopOrderMiddle {
         request.receiverMobile = orderShip.getDeliveryTel();                  //收货人手机
 
         //订单中商品是上海仓,加上威盛快递单
-        String invArea = "";
-        String trackingId = "";
-        String wsExporessNo = "";
-        invArea = inventoryService.getInventory(orderLineList.get(0).getSkuId()).getInvArea();
-        Logger.error("商品的库存地是:::"+invArea);
-        if ("S".equals(invArea) || "SZ".equals(invArea)) {
-            WeiShengExpress weiShengExpress = weiShengExpressService.getExpress();
-            if (null != weiShengExpress) {
-                trackingId = weiShengExpress.getTrackingId();
-                wsExporessNo = weiShengExpress.getExpressNo();
-            }
-            //威盛物流单号使用后更新状态
-            weiShengExpressService.useExpress(weiShengExpress);
-            request.userDefinedField1 = orderShip.getDeliveryCardNum() + "," + trackingId + "," + wsExporessNo;//收货人身份证号,威盛快递单号,国内快递单号
-        }
-        else {
-            request.userDefinedField1 = orderShip.getDeliveryCardNum();//收货人身份证号
-        }
+//        String invArea = "";
+//        String trackingId = "";
+//        String wsExporessNo = "";
+//        invArea = inventoryService.getInventory(orderLineList.get(0).getSkuId()).getInvArea();
+//        Logger.error("商品的库存地是:::"+invArea);
+//        if ("S".equals(invArea) || "SZ".equals(invArea)) {
+//            WeiShengExpress weiShengExpress = weiShengExpressService.getExpress();
+//            if (null != weiShengExpress) {
+//                trackingId = weiShengExpress.getTrackingId();
+//                wsExporessNo = weiShengExpress.getExpressNo();
+//            }
+//            //威盛物流单号使用后更新状态
+//            weiShengExpressService.useExpress(weiShengExpress);
+//            request.userDefinedField1 = orderShip.getDeliveryCardNum() + "," + trackingId + "," + wsExporessNo;//收货人身份证号,威盛快递单号,国内快递单号
+//        }
+//        else {
+//            request.userDefinedField1 = orderShip.getDeliveryCardNum();//收货人身份证号
+//        }
+
+        request.userDefinedField1 = orderShip.getDeliveryCardNum();//收货人身份证号
 
         if ("JD".equals(payMethod)) payMethod = "京东支付";
         else if ("ALIPAY".equals(payMethod)) payMethod = "支付宝";

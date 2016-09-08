@@ -36,7 +36,7 @@ public class Order implements Serializable {
     private Integer orderType;          //订单类型
     private Long pinActiveId;           //拼购活动ID
 
-    private String erpStatus;           //订单推送到ERP的状态 S:成功   F:失败
+    private String erpStatus;           //订单推送到ERP的状态  N:未推送 (默认) ，S:推送成功，  F:推送失败
 
     //分页,每页多少条
     private Integer pageSize;
