@@ -93,5 +93,11 @@ public class OrderServiceImpl implements OrderService {
     public void updateOrderERPStatus(Order order) {
         orderMapper.updateOrderERPStatus(order);
     }
+    /**
+     * 更新订单申报状态               Add By Sibyl.sun 2016.09.13
+     * @param order 订单
+     */
+    @Override
+    public void updateOrderDeclaraStatus(Order order){ orderMapper.updateOrderDeclaraStatus(order);}
 
 }

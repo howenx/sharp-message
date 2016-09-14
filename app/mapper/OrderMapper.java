@@ -65,4 +65,10 @@ public interface OrderMapper {
      */
     void updateOrderERPStatus(Order order);
 
+    /**
+     * 更新订单申报状态               Add By Sibyl.sun 2016.09.13
+     * @param order 订单
+     */
+    void updateOrderDeclaraStatus(Order order);
+
 }

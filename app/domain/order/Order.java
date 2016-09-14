@@ -38,6 +38,12 @@ public class Order implements Serializable {
 
     private String erpStatus;           //订单推送到ERP的状态  N:未推送 (默认) ，S:推送成功，  F:推送失败
 
+    private String payMethodSub;        //子支付渠道
+
+    private  String declaraStatus;      //申报状态
+    private  String declaraResult;      //申报返回结果
+    private  String declaraNo;          //申报备案号
+
     //分页,每页多少条
     private Integer pageSize;
     //分页,从第几条开始
@@ -48,37 +54,6 @@ public class Order implements Serializable {
     private String order;
 
     public Order() {
-    }
-
-    @Override
-    public String toString() {
-        return "Order{" +
-                "orderId=" + orderId +
-                ", userId=" + userId +
-                ", payTotal=" + payTotal +
-                ", payMethod='" + payMethod + '\'' +
-                ", orderCreateAt=" + orderCreateAt +
-                ", orderIp='" + orderIp + '\'' +
-                ", pgTradeNo='" + pgTradeNo + '\'' +
-                ", orderStatus='" + orderStatus + '\'' +
-                ", errorStr='" + errorStr + '\'' +
-                ", discount=" + discount +
-                ", updatedAt=" + updatedAt +
-                ", orderDesc='" + orderDesc + '\'' +
-                ", shipFee=" + shipFee +
-                ", postalFee=" + postalFee +
-                ", confirmReveiveAt=" + confirmReveiveAt +
-                ", totalFee=" + totalFee +
-                ", shipTime=" + shipTime +
-                ", clientType=" + clientType +
-                ", orderType=" + orderType +
-                ", pinActiveId=" + pinActiveId +
-                ", erpStatus='" + erpStatus + '\'' +
-                ", pageSize=" + pageSize +
-                ", offset=" + offset +
-                ", sort='" + sort + '\'' +
-                ", order='" + order + '\'' +
-                '}';
     }
 
     public Order(Long orderId, Long userId, BigDecimal payTotal, String payMethod, Timestamp orderCreateAt, String orderIp, String pgTradeNo, String orderStatus, String errorStr, BigDecimal discount, Timestamp updatedAt, String orderDesc, BigDecimal shipFee, BigDecimal postalFee, Timestamp confirmReveiveAt, BigDecimal totalFee, Integer shipTime, Integer clientType, Integer orderType, Long pinActiveId, String erpStatus, Integer pageSize, Integer offset, String sort, String order) {
@@ -307,5 +282,72 @@ public class Order implements Serializable {
 
     public void setOrder(String order) {
         this.order = order;
+    }
+
+    public String getPayMethodSub() {
+        return payMethodSub;
+    }
+
+    public void setPayMethodSub(String payMethodSub) {
+        this.payMethodSub = payMethodSub;
+    }
+
+    public String getDeclaraStatus() {
+        return declaraStatus;
+    }
+
+    public void setDeclaraStatus(String declaraStatus) {
+        this.declaraStatus = declaraStatus;
+    }
+
+    public String getDeclaraResult() {
+        return declaraResult;
+    }
+
+    public void setDeclaraResult(String declaraResult) {
+        this.declaraResult = declaraResult;
+    }
+
+    public String getDeclaraNo() {
+        return declaraNo;
+    }
+
+    public void setDeclaraNo(String declaraNo) {
+        this.declaraNo = declaraNo;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "orderId=" + orderId +
+                ", userId=" + userId +
+                ", payTotal=" + payTotal +
+                ", payMethod='" + payMethod + '\'' +
+                ", orderCreateAt=" + orderCreateAt +
+                ", orderIp='" + orderIp + '\'' +
+                ", pgTradeNo='" + pgTradeNo + '\'' +
+                ", orderStatus='" + orderStatus + '\'' +
+                ", errorStr='" + errorStr + '\'' +
+                ", discount=" + discount +
+                ", updatedAt=" + updatedAt +
+                ", orderDesc='" + orderDesc + '\'' +
+                ", shipFee=" + shipFee +
+                ", postalFee=" + postalFee +
+                ", confirmReveiveAt=" + confirmReveiveAt +
+                ", totalFee=" + totalFee +
+                ", shipTime=" + shipTime +
+                ", clientType=" + clientType +
+                ", orderType=" + orderType +
+                ", pinActiveId=" + pinActiveId +
+                ", erpStatus='" + erpStatus + '\'' +
+                ", payMethodSub='" + payMethodSub + '\'' +
+                ", declaraStatus='" + declaraStatus + '\'' +
+                ", declaraResult='" + declaraResult + '\'' +
+                ", declaraNo='" + declaraNo + '\'' +
+                ", pageSize=" + pageSize +
+                ", offset=" + offset +
+                ", sort='" + sort + '\'' +
+                ", order='" + order + '\'' +
+                '}';
     }
 }

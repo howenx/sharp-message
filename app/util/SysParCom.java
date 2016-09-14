@@ -26,6 +26,12 @@ public class SysParCom {
     public static String PASSWORD;
     public static String SECRET;
 
+    //订单申报
+    public static String ORDER_DECLARA_URL;
+    public static String ORDER_DECLARA_CONAME;
+    public static String ORDER_DECLARA_COCODE;
+    public static String ORDER_DECLARA_MD5KEY;
+
 
     @Inject
     public SysParCom(Configuration configuration) {
@@ -42,6 +48,11 @@ public class SysParCom {
         LOGIN_NAME = configuration.getString("erp.login.name");
         PASSWORD = configuration.getString("erp.login.pwd");
         SECRET = configuration.getString("erp.secret");
+
+        ORDER_DECLARA_URL= configuration.getString("order.declara.url");
+        ORDER_DECLARA_CONAME=configuration.getString("order.declara.coname");
+        ORDER_DECLARA_COCODE=configuration.getString("order.declara.cocode");
+        ORDER_DECLARA_MD5KEY=configuration.getString("order.declara.md5key");
     }
 
 }

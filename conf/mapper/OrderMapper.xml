@@ -26,7 +26,11 @@
         ${alias}.client_type,
         ${alias}.order_type,
         ${alias}.pin_active_id,
-        ${alias}.erp_status
+        ${alias}.erp_status,
+        ${alias}.pay_method_sub,
+        ${alias}.declara_status,
+        ${alias}.declara_result,
+        ${alias}.declara_no
 
     </sql>
     <select id="getOrdersAll" resultType="domain.order.Order">
@@ -118,6 +122,14 @@
         update sp_order
         set
         erp_status=#{erpStatus},updated_at=CURRENT_TIMESTAMP(0)
+        where order_id = #{orderId}
+    </update>
+
+    <!--更新订单申报状态-->
+    <update id="updateOrderDeclaraStatus" parameterType="domain.order.Order">
+        update sp_order
+        set
+        declara_status=#{declaraStatus},declara_result=#{declaraResult},declara_no=#{declaraNo},updated_at=CURRENT_TIMESTAMP(0)
         where order_id = #{orderId}
     </update>
 
