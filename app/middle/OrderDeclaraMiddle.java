@@ -201,14 +201,14 @@ public class OrderDeclaraMiddle {
                 //打印服务端返回结果
                 JsonNode jsonNode= Json.parse(re);
                 Logger.info("海关返回信息--->" + jsonNode);
-                order.setDeclaraResult(re);
+                order.setDeclaraResult(re); //申报返回结果
                 if(jsonNode.has("status")){
                     String status=jsonNode.get("status").asText();
                     if("SUCCESS".equalsIgnoreCase(status)){ //申报成功
-                        order.setDeclaraResult(status);
+                        order.setDeclaraStatus("S");
                         order.setDeclaraNo(jsonNode.get("declaraNo").asText());//申报备案号
                     }else{
-                        order.setDeclaraResult(status);
+                        order.setDeclaraStatus("F");//申报失败
                     }
                 }
                 orderService.updateOrderDeclaraStatus(order);
