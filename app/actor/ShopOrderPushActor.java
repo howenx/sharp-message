@@ -76,7 +76,7 @@ public class ShopOrderPushActor extends AbstractActor{
                 }
                 orderService.updateOrderERPStatus(order);
             } else {
-                Logger.error("订单: " + order.getOrderId() + " 状态: " + order.getOrderStatus() + " 推送状态: " + order.getOrderStatus() + " 库存区域: " + invArea + "不符合推送要求");
+                Logger.error("订单: " + order.getOrderId() + " 的状态:" + order.getOrderStatus() + ", 推送状态:" + order.getErpStatus() + ", 库存区域:" + invArea + " 不符合推送要求");
             }
         }).matchAny(s-> {
             Logger.error("push to ERP error!", s.toString());

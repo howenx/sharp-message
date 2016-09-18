@@ -56,7 +56,7 @@ public class Order implements Serializable {
     public Order() {
     }
 
-    public Order(Long orderId, Long userId, BigDecimal payTotal, String payMethod, Timestamp orderCreateAt, String orderIp, String pgTradeNo, String orderStatus, String errorStr, BigDecimal discount, Timestamp updatedAt, String orderDesc, BigDecimal shipFee, BigDecimal postalFee, Timestamp confirmReveiveAt, BigDecimal totalFee, Integer shipTime, Integer clientType, Integer orderType, Long pinActiveId, String erpStatus, Integer pageSize, Integer offset, String sort, String order) {
+    public Order(Long orderId, Long userId, BigDecimal payTotal, String payMethod, Timestamp orderCreateAt, String orderIp, String pgTradeNo, String orderStatus, String errorStr, BigDecimal discount, Timestamp updatedAt, String orderDesc, BigDecimal shipFee, BigDecimal postalFee, Timestamp confirmReveiveAt, BigDecimal totalFee, Integer shipTime, Integer clientType, Integer orderType, Long pinActiveId, String erpStatus, String payMethodSub, String declaraStatus, String declaraResult, String declaraNo, Integer pageSize, Integer offset, String sort, String order) {
         this.orderId = orderId;
         this.userId = userId;
         this.payTotal = payTotal;
@@ -78,6 +78,10 @@ public class Order implements Serializable {
         this.orderType = orderType;
         this.pinActiveId = pinActiveId;
         this.erpStatus = erpStatus;
+        this.payMethodSub = payMethodSub;
+        this.declaraStatus = declaraStatus;
+        this.declaraResult = declaraResult;
+        this.declaraNo = declaraNo;
         this.pageSize = pageSize;
         this.offset = offset;
         this.sort = sort;
