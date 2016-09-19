@@ -3,15 +3,13 @@ package middle;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.squareup.okhttp.*;
+import domain.WeiShengExpress;
 import domain.order.Order;
 import domain.order.OrderLine;
 import domain.order.OrderShip;
 import play.Logger;
 import play.libs.Json;
-import service.OrderLineService;
-import service.OrderService;
-import service.OrderShipService;
-import service.OrderSplitService;
+import service.*;
 import util.Crypto;
 import util.SysParCom;
 
@@ -46,6 +44,8 @@ public class WeiShengExpressMiddle {
     @Inject
     private OrderLineService orderLineService;
 
+    @Inject
+    private WeiShengExpressService weiShengExpressService;
 
     public void weiShengExpress(Long orderId) {
         Order order = orderService.getOrderById(orderId);
@@ -63,10 +63,16 @@ public class WeiShengExpressMiddle {
         ObjectNode orderNode = newObject();
         orderNode.put("WarehouseCode","WELLWIN-0001");//仓库编码   TODO ...
         orderNode.put("Weight","4.3");//	重量	Number( 4,2)TODO ...
-        orderNode.put("TrackingID","WSE5010243225");//威盛快递单号 TODO ...
+        WeiShengExpress weiShengExpress=weiShengExpressService.getExpress();
+        if(null==weiShengExpress){
+            Logger.error("没有物流单号" + orderId);
+            return;
+        }
+
+        orderNode.put("TrackingID",weiShengExpress.getTrackingId());//威盛快递单号
         orderNode.put("ExpressName","JINGDONG");//	国内快递公司(代码) PICKUP - 自提  JINGDONG - 京东 YTO - 圆通 ZTO - 中通 TODO ...
-        orderNode.put("ExpressNo","6666001037");//国内快递单号	自提的可以为空 TODO ...
-        orderNode.put("OrderNo",orderId);//	电商订单号
+        orderNode.put("ExpressNo",weiShengExpress.getExpressNo());//国内快递单号	自提的可以为空
+        orderNode.put("OrderNo",orderId+"");//	电商订单号
 //        Remark	电商备注	Varchar2(200)	Y
 //        TotalPrice	订单总价	Number(8,5)	Y
 //        EstimateMoney	国内物流费用金额	Number(8,5)	Y
@@ -118,7 +124,7 @@ public class WeiShengExpressMiddle {
         List<JsonNode> cargoeList=new ArrayList<>();
         for(OrderLine orderLine:orderLineList){
             ObjectNode cargoe = newObject();
-            cargoe.put("CommodityLinkage",orderLine.getSkuId());// 商品编号
+            cargoe.put("CommodityLinkage",orderLine.getSkuId()+"");// 商品编号
             cargoe.put("Commodity",orderLine.getSkuTitle());//商品中文名称
             cargoe.put("CommodityNum",orderLine.getAmount());// 单项购买商品数量
             cargoe.put("CommodityUnitPrice",orderLine.getPrice());// 单项购买商品单价
@@ -157,9 +163,16 @@ public class WeiShengExpressMiddle {
                 //打印服务端返回结果
                 JsonNode jsonNode=Json.parse(new String(response.body().bytes(), UTF_8));
                 Logger.info("威盛物流返回信息--->" + jsonNode);
-
-                //TODO ...
-
+                order.setExpressResult(jsonNode.toString());
+                //{"rtnCode":"000000","rtnDesc":"","rtnList":[],"skuList":["111689"]}
+                if(jsonNode.has("rtnCode")){
+                    if("000000".equals(jsonNode.get("rtnCode"))){
+                        order.setExpressStatus("S"); //推送物流成功
+                    }else{
+                        order.setExpressStatus("F"); //推送物流失败
+                    }
+                }
+                orderService.updateOrderExpressStatus(order);
             }
 
         } catch (IOException e) {

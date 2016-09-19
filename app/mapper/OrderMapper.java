@@ -71,4 +71,10 @@ public interface OrderMapper {
      */
     void updateOrderDeclaraStatus(Order order);
 
+    /**
+     * 更新威盛物流状态               Add By Sibyl.sun 2016.09.13
+     * @param order 订单
+     */
+    void updateOrderExpressStatus(Order order);
+
 }

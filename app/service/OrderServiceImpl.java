@@ -100,4 +100,14 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void updateOrderDeclaraStatus(Order order){ orderMapper.updateOrderDeclaraStatus(order);}
 
+
+    /**
+     * 更新威盛物流状态               Add By Sibyl.sun 2016.09.19
+     * @param order 订单
+     */
+    @Override
+    public void updateOrderExpressStatus(Order order){
+        orderMapper.updateOrderExpressStatus(order);
+    }
+
 }

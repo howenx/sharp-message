@@ -65,5 +65,10 @@ public interface OrderService {
      * @param order 订单
      */
     void updateOrderDeclaraStatus(Order order);
+    /**
+     * 更新威盛物流状态               Add By Sibyl.sun 2016.09.19
+     * @param order 订单
+     */
+    void updateOrderExpressStatus(Order order);
 
 }

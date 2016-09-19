@@ -44,6 +44,9 @@ public class Order implements Serializable {
     private  String declaraResult;      //申报返回结果
     private  String declaraNo;          //申报备案号
 
+    private String expressStatus;//物流状态
+    private String expressResult;//物流返回结果
+
     //分页,每页多少条
     private Integer pageSize;
     //分页,从第几条开始
@@ -320,6 +323,22 @@ public class Order implements Serializable {
         this.declaraNo = declaraNo;
     }
 
+    public String getExpressStatus() {
+        return expressStatus;
+    }
+
+    public void setExpressStatus(String expressStatus) {
+        this.expressStatus = expressStatus;
+    }
+
+    public String getExpressResult() {
+        return expressResult;
+    }
+
+    public void setExpressResult(String expressResult) {
+        this.expressResult = expressResult;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
@@ -348,6 +367,8 @@ public class Order implements Serializable {
                 ", declaraStatus='" + declaraStatus + '\'' +
                 ", declaraResult='" + declaraResult + '\'' +
                 ", declaraNo='" + declaraNo + '\'' +
+                ", expressStatus='" + expressStatus + '\'' +
+                ", expressResult='" + expressResult + '\'' +
                 ", pageSize=" + pageSize +
                 ", offset=" + offset +
                 ", sort='" + sort + '\'' +

@@ -30,7 +30,9 @@
         ${alias}.pay_method_sub,
         ${alias}.declara_status,
         ${alias}.declara_result,
-        ${alias}.declara_no
+        ${alias}.declara_no,
+        ${alias}.express_status,
+        ${alias}.express_result
 
     </sql>
     <select id="getOrdersAll" resultType="domain.order.Order">
@@ -133,5 +135,12 @@
         where order_id = #{orderId}
     </update>
 
+    <!--更新威盛物流状态-->
+    <update id="updateOrderExpressStatus" parameterType="domain.order.Order">
+        update sp_order
+        set
+        express_status=#{expressStatus},express_result=#{expressResult},updated_at=CURRENT_TIMESTAMP(0)
+        where order_id = #{orderId}
+    </update>
 
 </mapper>
