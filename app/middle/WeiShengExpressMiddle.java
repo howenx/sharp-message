@@ -89,7 +89,7 @@ public class WeiShengExpressMiddle {
         shipperNode.put("SenderProvince",SysParCom.SENDER_PROVINCE);//	发件人省、州
         shipperNode.put("SenderCity",SysParCom.SENDER_CITY);//发件人城市
         shipperNode.put("SenderAddr",SysParCom.SENDER_ADDR);//	发件人地址
-        shipperNode.put("SenderTel",,SysParCom.SENDER_TEL);//发件人电话
+        shipperNode.put("SenderTel",SysParCom.SENDER_TEL);//发件人电话
         orderNode.putPOJO("Shipper",shipperNode);
 
     //    业务数据：Cosignee收货人信息
@@ -101,13 +101,13 @@ public class WeiShengExpressMiddle {
         }
 
         ObjectNode cosigneeNode = newObject();
-        cosigneeNode.put("RecPerson",,orderAddress.getDeliveryName());// 收货人姓名
+        cosigneeNode.put("RecPerson",orderAddress.getDeliveryName());// 收货人姓名
         cosigneeNode.put("RecPhone",orderAddress.getDeliveryTel());// 收货人电话
         cosigneeNode.put("RecCountry","中国");// 收货地国家
         cosigneeNode.put("RecProvince", orderAddress.getDeliveryCity().split(" ")[0]);// 收货地省/州
         cosigneeNode.put("RecCity",orderAddress.getDeliveryCity().split(" ")[2]);// 收货地城市
         cosigneeNode.put("RecAddress",orderAddress.getDeliveryAddress());// 收货地地址
-        orderNode.putPOJO("cosignee",cosigneeNode);
+        orderNode.putPOJO("Cosignee",cosigneeNode);
 
        // 业务数据：Goods商品信息
         List<OrderLine> orderLineList=orderLineService.getLineByOrderId(orderId);
