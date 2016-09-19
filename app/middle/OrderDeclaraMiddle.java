@@ -72,15 +72,15 @@ public class OrderDeclaraMiddle {
         result.put("orderCommitTime",simpleDateFormat.format(order.getOrderCreateAt())); //订单提交时间
 
 
-        //TODO ...发件人相关信息
-        result.put("senderName","可靠科技");//发件人姓名
-        result.put("senderTel","010-53678808");// 发件人电话
-        result.put("SenderCompanyName","北京东方爱怡斯科技有限公司");//发件方公司名称
-        result.put("senderAddr","北京望京洛娃大厦3层1304室");// 发件人地址
+        //发件人相关信息
+        result.put("senderName",SysParCom.SENDER_NAME);//发件人姓名
+        result.put("senderTel",SysParCom.SENDER_TEL);// 发件人电话
+        result.put("SenderCompanyName",SysParCom.SENDER_COMPANY_NAME);//发件方公司名称
+        result.put("senderAddr",SysParCom.SENDER_ADDR);// 发件人地址
         result.put("senderZip","100000");//发件地邮编
-        result.put("senderCity","北京");//发件地城市
-        result.put("senderProvince","北京");// 发件地省/州名
-        result.put("senderCountry","KOR");//发件地国家 韩国KOR
+        result.put("senderCity",SysParCom.SENDER_CITY);//发件地城市
+        result.put("senderProvince",SysParCom.SENDER_PROVINCE);// 发件地省/州名
+        result.put("senderCountry",SysParCom.SENDER_COUNTRY);//发件地国家 韩国KOR
 
 
 
@@ -126,7 +126,7 @@ public class OrderDeclaraMiddle {
         List<JsonNode> cargoeList=new ArrayList<>();
         for(OrderLine orderLine:orderLineList){
             ObjectNode cargoe = newObject();
-            cargoe.put("cargoName","exo 明星logo款连帽卫衣");// 单项购买商品名
+            cargoe.put("cargoName",orderLine.getSkuTitle());// 单项购买商品名
             cargoe.put("cargoCode","ABCDEFG12345");// 单项购买商品编号  电商商品备案时的编号 TODO ....
 //            cargoe.put("cargoNum",1);// 单项购买商品数量
 //            cargoe.put("cargoUnitPrice",528.00);// 单项购买商品单价

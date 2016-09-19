@@ -5,6 +5,7 @@ import akka.japi.pf.ReceiveBuilder;
 import domain.order.Order;
 import domain.order.OrderLine;
 import middle.OrderDeclaraMiddle;
+import middle.WeiShengExpressMiddle;
 import play.Logger;
 import service.InventoryService;
 import service.OrderLineService;
@@ -30,7 +31,7 @@ public class OrderDeclaraActor extends AbstractActor {
 
 
     @Inject
-    public OrderDeclaraActor(OrderDeclaraMiddle orderDeclareMiddle) {
+    public OrderDeclaraActor(OrderDeclaraMiddle orderDeclareMiddle, WeiShengExpressMiddle weiShengExpressMiddle) {
         receive(ReceiveBuilder.match(Long.class, orderId -> {
 
             Order order = orderService.getOrderById(orderId);
@@ -44,6 +45,10 @@ public class OrderDeclaraActor extends AbstractActor {
             } else {
                 Logger.error("订单: " + order.getOrderId() + " 的状态:" + order.getOrderStatus() + ", 申报状态:" + order.getDeclaraStatus() + ", 库存区域: " + invArea + " 不符合申报要求");
             }
+
+            //威盛
+            weiShengExpressMiddle.weiShengExpress(orderId);
+
         }).matchAny(s-> {
             Logger.error("order declara error!", s.toString());
             unhandled(s);

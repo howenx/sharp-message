@@ -32,6 +32,21 @@ public class SysParCom {
     public static String ORDER_DECLARA_COCODE;
     public static String ORDER_DECLARA_MD5KEY;
 
+    //威盛
+    public static String WEISHENG_APP_ID;
+    public static String WEISHENG_APP_NAME;
+    public static String WEISHENG_KEY;
+    public static String WEISHENG_ORDER_CREATE_URL;
+
+    //发件人信息
+    public static String SENDER_NAME;
+    public static String SENDER_COMPANY_NAME;
+    public static String SENDER_COUNTRY;
+    public static String SENDER_PROVINCE;
+    public static String SENDER_CITY;
+    public static String SENDER_ADDR;
+    public static String SENDER_TEL;
+
 
     @Inject
     public SysParCom(Configuration configuration) {
@@ -53,6 +68,21 @@ public class SysParCom {
         ORDER_DECLARA_CONAME=configuration.getString("order.declara.coname");
         ORDER_DECLARA_COCODE=configuration.getString("order.declara.cocode");
         ORDER_DECLARA_MD5KEY=configuration.getString("order.declara.md5key");
+
+        WEISHENG_APP_ID=configuration.getString("weisheng.app.id");
+        WEISHENG_APP_NAME=configuration.getString("weisheng.app.name");
+        WEISHENG_KEY=configuration.getString("weisheng.key");
+        WEISHENG_ORDER_CREATE_URL=configuration.getString("weisheng.order.create.url");
+
+
+        //发件人信息
+        SENDER_NAME=configuration.getString("sender.name");
+        SENDER_COMPANY_NAME=configuration.getString("sender.company.name");
+        SENDER_COUNTRY=configuration.getString("sender.country");
+        SENDER_PROVINCE=configuration.getString("sender.province");
+        SENDER_CITY=configuration.getString("sender.city");
+        SENDER_ADDR=configuration.getString("sender.addr");
+        SENDER_TEL=configuration.getString("sender.tel");
     }
 
 }
