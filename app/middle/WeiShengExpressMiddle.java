@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.squareup.okhttp.*;
 import domain.WeiShengExpress;
 import domain.order.Order;
+import domain.order.OrderCustoms;
 import domain.order.OrderLine;
 import domain.order.OrderShip;
 import play.Logger;
@@ -49,6 +50,7 @@ public class WeiShengExpressMiddle {
 
     public void weiShengExpress(Long orderId) {
         Order order = orderService.getOrderById(orderId);
+        OrderCustoms orderCustoms = orderService.getOrderCustomsById(orderId);
 
         if (null == order) {
             Logger.error("没有订单信息orderId=" + orderId);
@@ -163,16 +165,20 @@ public class WeiShengExpressMiddle {
                 //打印服务端返回结果
                 JsonNode jsonNode=Json.parse(new String(response.body().bytes(), UTF_8));
                 Logger.info("威盛物流返回信息--->" + jsonNode);
-                order.setExpressResult(jsonNode.toString());
+//                order.setExpressResult(jsonNode.toString());
+                orderCustoms.setExpressResult(jsonNode.toString());
                 //{"rtnCode":"000000","rtnDesc":"","rtnList":[],"skuList":["111689"]}
                 if(jsonNode.has("rtnCode")){
                     if("000000".equals(jsonNode.get("rtnCode"))){
-                        order.setExpressStatus("S"); //推送物流成功
+//                        order.setExpressStatus("S"); //推送物流成功
+                        orderCustoms.setExpressStatus("S"); //推送物流成功
                     }else{
-                        order.setExpressStatus("F"); //推送物流失败
+//                        order.setExpressStatus("F"); //推送物流失败
+                        orderCustoms.setExpressStatus("F"); //推送物流失败
                     }
                 }
-                orderService.updateOrderExpressStatus(order);
+//                orderService.updateOrderExpressStatus(order);
+                orderService.updateOrderCustoms(orderCustoms);//更新订单申报信息
             }
 
         } catch (IOException e) {

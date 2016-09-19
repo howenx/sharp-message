@@ -3,8 +3,8 @@ package actor;
 import akka.actor.AbstractActor;
 import akka.japi.pf.ReceiveBuilder;
 import domain.order.Order;
+import domain.order.OrderCustoms;
 import domain.order.OrderLine;
-import middle.OrderDeclaraMiddle;
 import middle.WeiShengExpressMiddle;
 import play.Logger;
 import service.InventoryService;
@@ -33,20 +33,22 @@ public class OrderExpressActor extends AbstractActor {
         receive(ReceiveBuilder.match(Long.class, orderId -> {
 
             Order order = orderService.getOrderById(orderId);
+            OrderCustoms orderCustoms = orderService.getOrderCustomsById(orderId);
             String orderStatus = order.getOrderStatus();
             List<OrderLine> orderLineList = orderLineService.getLineByOrderId(orderId);
             String invArea = inventoryService.getInventory(orderLineList.get(0).getSkuId()).getInvArea();
-            //支付成功的订单 并且申报状态为未申报成功的 并且订单商品为"K" 韩国直邮的  进行订单申报
-            if ("S".equals(orderStatus) && !"S".equals(order.getExpressStatus()) && "K".equals(invArea)) {
-                Logger.error("订单推送物流 "+orderId);
+            //支付成功的订单 并且物流推送状态为未成功成功的 并且订单商品为"K" 韩国直邮的  推送物流信息
+            if ("S".equals(orderStatus) && !"S".equals(orderCustoms.getExpressStatus()) && "K".equals(invArea)) {
+                Logger.error("订单推送物流信息: "+orderId);
                 //威盛
                 weiShengExpressMiddle.weiShengExpress(orderId);
-            } else {
-                Logger.error("订单: " + order.getOrderId() + " 的状态:" + order.getOrderStatus() + ", 申报状态:" + order.getExpressStatus() + ", 库存区域: " + invArea + " 不符合申报要求");
+            }
+            else {
+                Logger.error("订单: " + order.getOrderId() + " 的状态:" + order.getOrderStatus() + ", 物流推送状态:" + orderCustoms.getExpressStatus() + ", 库存区域: " + invArea + " 不符合物流推送要求");
             }
 
         }).matchAny(s-> {
-            Logger.error("order declara error!", s.toString());
+            Logger.error("order express push error!", s.toString());
             unhandled(s);
         }).build());
     }

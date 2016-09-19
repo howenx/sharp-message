@@ -33,8 +33,8 @@
         ${alias}.declara_no,
         ${alias}.express_status,
         ${alias}.express_result
-
     </sql>
+
     <select id="getOrdersAll" resultType="domain.order.Order">
         select
         <include refid="orderColumns">
@@ -142,5 +142,36 @@
         express_status=#{expressStatus},express_result=#{expressResult},updated_at=CURRENT_TIMESTAMP(0)
         where order_id = #{orderId}
     </update>
+
+
+    <!--订单申报    Added By Sunny Wu 2016.09.19-->
+    <sql id="orderCustomsColumns">
+        ${alias}.customs_id,
+        ${alias}.order_id,
+        ${alias}.declara_status,
+        ${alias}.declara_result,
+        ${alias}.declara_no,
+        ${alias}.express_status,
+        ${alias}.express_result,
+        ${alias}.pay_status,
+        ${alias}.pay_result
+    </sql>
+
+    <!--更新订单申报数据    Added By Sunny Wu 2016.09.19-->
+    <update id="updateOrderCustoms" parameterType="domain.order.OrderCustoms">
+        update sp_order_customs
+        set
+        declara_status=#{declaraStatus},declara_result=#{declaraResult},declara_no=#{declaraNo},express_status=#{expressStatus},express_result=#{expressResult},pay_status=#{payStatus},pay_result=#{payResult}
+        where order_id = #{orderId}
+    </update>
+
+    <!--根据订单ID获取一条订单申报信息    Added By Sunny Wu 2016.09.19-->
+    <select id="getOrderCustomsById" resultType="domain.order.OrderCustoms" parameterType="java.lang.Long">
+        select
+        <include refid="orderCustomsColumns">
+            <property name="alias" value="t"/>
+        </include>
+        from sp_order_customs t where t.order_id = #{value}
+    </select>
 
 </mapper>

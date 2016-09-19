@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.squareup.okhttp.*;
 import domain.order.Order;
+import domain.order.OrderCustoms;
 import domain.order.OrderLine;
 import domain.order.OrderShip;
 import play.Logger;
@@ -51,6 +52,7 @@ public class OrderDeclaraMiddle {
 
     public void orderDeclare(Long orderId){
         Order order=orderService.getOrderById(orderId);
+        OrderCustoms orderCustoms = orderService.getOrderCustomsById(orderId);
 
         if(null==order){
             Logger.error("没有订单信息orderId="+orderId);
@@ -201,17 +203,22 @@ public class OrderDeclaraMiddle {
                 //打印服务端返回结果
                 JsonNode jsonNode= Json.parse(re);
                 Logger.info("海关返回信息--->" + jsonNode);
-                order.setDeclaraResult(re); //申报返回结果
+//                order.setDeclaraResult(re); //申报返回结果
+                orderCustoms.setDeclaraResult(re);//申报返回结果
                 if(jsonNode.has("status")){
                     String status=jsonNode.get("status").asText();
                     if("SUCCESS".equalsIgnoreCase(status)){ //申报成功
-                        order.setDeclaraStatus("S");
-                        order.setDeclaraNo(jsonNode.get("declaraNo").asText());//申报备案号
+//                        order.setDeclaraStatus("S");
+//                        order.setDeclaraNo(jsonNode.get("declaraNo").asText());//申报备案号
+                        orderCustoms.setDeclaraStatus("S");
+                        orderCustoms.setDeclaraNo(jsonNode.get("declaraNo").asText());//申报备案号
                     }else{
-                        order.setDeclaraStatus("F");//申报失败
+//                        order.setDeclaraStatus("F");//申报失败
+                        orderCustoms.setDeclaraStatus("F");//申报失败
                     }
                 }
-                orderService.updateOrderDeclaraStatus(order);
+//                orderService.updateOrderDeclaraStatus(order);
+                orderService.updateOrderCustoms(orderCustoms);//更新订单申报信息
             }
 
         } catch (IOException e) {

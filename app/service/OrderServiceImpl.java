@@ -1,6 +1,7 @@
 package service;
 
 import domain.order.Order;
+import domain.order.OrderCustoms;
 import mapper.OrderMapper;
 import javax.inject.Inject;
 import java.util.List;
@@ -108,6 +109,25 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void updateOrderExpressStatus(Order order){
         orderMapper.updateOrderExpressStatus(order);
+    }
+
+    /**
+     * 更新订单申报数据    Added By Sunny Wu 2016.09.19
+     * @param orderCustoms 订单申报
+     */
+    @Override
+    public void updateOrderCustoms(OrderCustoms orderCustoms) {
+        orderMapper.updateOrderCustoms(orderCustoms);
+    }
+
+    /**
+     * 根据订单ID获取一条订单申报信息    Added By Sunny Wu 2016.09.19
+     * @param orderId 订单号
+     * @return OrderCustoms
+     */
+    @Override
+    public OrderCustoms getOrderCustomsById(Long orderId) {
+        return orderMapper.getOrderCustomsById(orderId);
     }
 
 }
